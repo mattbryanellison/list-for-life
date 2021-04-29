@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -8,38 +9,63 @@ import {
   FormControlLabel,
   Typography,
   IconButton,
+  Grid,
+  TextField,
 } from "@material-ui/core";
-import { Info } from "@material-ui/icons";
+import { Info, Edit, Done, DeleteForever } from "@material-ui/icons";
 
 import InfoDialog from "./InfoDialog";
 import EditDialog from "./EditDialog";
 import { putTask, deleteTaskThunk } from "../redux/tasks";
 
+const useStyles = makeStyles((theme) => ({
+  spacer: {
+    flexGrow: 1,
+  },
+  div: {
+    display: "flex",
+    flexWrap: "wrap",
+    boxSizing: "border-box",
+  },
+  div2: {
+    display: "flex",
+    flexWrap: "wrap",
+    boxSizing: "border-box",
+    justifyContent: "space-between",
+  },
+}));
+
 const TaskListItem = (props) => {
+  const classes = useStyles();
   const { task } = props;
   const { listId } = useParams();
-  const [editDialogIsOpen, openEditDialog] = useState(false);
-  const [infoDialogIsOpen, openInfoDialog] = useState(false);
+  // const [editDialogIsOpen, openEditDialog] = useState(false);
+  // const [infoDialogIsOpen, openInfoDialog] = useState(false);
+  const [editTitleOpen, setEditTitleOpen] = useState(false);
   const [title, setTitle] = useState(task.title);
-  const [description, setDescription] = useState(task.description);
+  const [completed, setCompleted] = useState(task.completed);
+  // const [description, setDescription] = useState(task.description);
+
+  useEffect(() => {
+    setCompleted(task.completed);
+  }, [task]);
 
   const checkboxHandler = (event) => {
     props.updateTask(listId, task.id, {
-      completed: event.target.checked,
+      completed: !completed,
     });
   };
 
   const submitUpdateHandler = () => {
     props.updateTask(listId, task.id, {
       title,
-      description,
     });
-    openEditDialog(false);
+    setEditTitleOpen(false);
   };
 
   const onDeleteHandler = () => {
     props.deleteTask(listId, task.id);
-    openEditDialog(false);
+    setEditTitleOpen(false);
   };
 
   const onEnter = (e) => {
@@ -50,35 +76,62 @@ const TaskListItem = (props) => {
 
   return (
     <div>
-      <ListItem>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox checked={task.completed} onChange={checkboxHandler} />
-            }
-          />
-        </FormGroup>
-        <Typography>{task.title}</Typography>
-        <IconButton onClick={() => openInfoDialog(true)}>
-          <Info />
-        </IconButton>
-        <InfoDialog
-          openInfoDialog={openInfoDialog}
-          task={task}
-          openEditDialog={openEditDialog}
-          infoDialogIsOpen={infoDialogIsOpen}
-        />
-        <EditDialog
-          openEditDialog={openEditDialog}
-          editDialogIsOpen={editDialogIsOpen}
-          task={task}
-          onEnter={onEnter}
-          setTitle={setTitle}
-          setDescription={setDescription}
-          submitUpdateHandler={submitUpdateHandler}
-          onDeleteHandler={onDeleteHandler}
-        />
-      </ListItem>
+      {/* <Grid container direction="row" justify="space-between"> */}
+      <div className={classes.div2}>
+        {/* <Grid container direction="row"> */}
+        <div className={classes.div}>
+          <Grid item>
+            <ListItem button onClick={checkboxHandler}>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox checked={completed} onChange={checkboxHandler} />
+                  }
+                />
+              </FormGroup>
+              {!editTitleOpen && <Typography variant="h4">{title}</Typography>}
+              {editTitleOpen && (
+                <TextField
+                  autoFocus={true}
+                  defaultValue={title}
+                  onKeyPress={onEnter}
+                  onChange={(event) => {
+                    setTitle(event.target.value);
+                  }}
+                />
+              )}
+            </ListItem>
+          </Grid>
+          {/* </Grid> */}
+        </div>
+        {/* <Grid container direction="row"> */}
+        <div className={classes.div}>
+          <Grid item>
+            {!editTitleOpen && (
+              <div>
+                <IconButton
+                  onClick={() => {
+                    setEditTitleOpen(true);
+                  }}
+                >
+                  <Edit />
+                </IconButton>
+                <IconButton onClick={onDeleteHandler}>
+                  <DeleteForever color="secondary" />
+                </IconButton>
+              </div>
+            )}
+
+            {editTitleOpen && (
+              <IconButton onClick={submitUpdateHandler}>
+                <Done />
+              </IconButton>
+            )}
+          </Grid>
+          {/* </Grid> */}
+        </div>
+        {/* </Grid> */}
+      </div>
     </div>
   );
 };
