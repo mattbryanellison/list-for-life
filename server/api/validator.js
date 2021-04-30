@@ -1,9 +1,5 @@
 const validateTaskBody = (task) => {
-  return (
-    task.completed != undefined &&
-    task.title != undefined &&
-    task.description != undefined
-  );
+  return task.completed != undefined && task.title != undefined;
 };
 
 const validateListBody = (list) => {

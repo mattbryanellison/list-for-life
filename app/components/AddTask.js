@@ -12,12 +12,32 @@ import {
   Card,
   CardContent,
   Typography,
+  makeStyles,
 } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
+import { Add, Done, Cancel } from "@material-ui/icons";
 
 import { postTask } from "../redux/tasks";
 
+const useStyles = makeStyles({
+  typ: {
+    color: "#ffffcc",
+  },
+  greenIcons: {
+    color: "#ffffff",
+    "&:hover": {
+      color: "#66ff33",
+    },
+  },
+  redIcons: {
+    color: "#ffffff",
+    "&:hover": {
+      color: "#ff0000",
+    },
+  },
+});
+
 const AddTask = (props) => {
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -50,21 +70,23 @@ const AddTask = (props) => {
 
   return (
     <div>
+      {/* <Button className={classes.btn} onClick={handleOpenDialog}>
+        <Typography className={classes.typ}>Add</Typography>
+      </Button> */}
       <IconButton onClick={handleOpenDialog}>
-        <Add />
+        <Add fontSize="large" />
       </IconButton>
       <Dialog
         onBackdropClick={handleCancel}
         onEscapeKeyDown={handleCancel}
         open={open}
       >
-        <DialogTitle>Add A New Task</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             id="title"
-            label="Title"
+            label=""
             type="title"
             fullWidth
             onKeyPress={onEnter}
@@ -72,25 +94,20 @@ const AddTask = (props) => {
               setTitle(event.target.value);
             }}
           />
-          <TextField
-            margin="dense"
-            id="description"
-            label="Description"
-            type="description"
-            fullWidth
-            onKeyPress={onEnter}
-            onChange={(event) => {
-              setDescription(event.target.value);
-            }}
-          />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmitTask} color="primary">
+          <IconButton onClick={handleSubmitTask}>
+            <Done />
+          </IconButton>
+          {/* <Button onClick={handleSubmitTask} color="primary">
             Add
-          </Button>
+          </Button> */}
+          <IconButton onClick={handleCancel}>
+            <Cancel />
+          </IconButton>
+          {/* <Button onClick={handleCancel} color="primary">
+            Cancel
+          </Button> */}
         </DialogActions>
       </Dialog>
     </div>

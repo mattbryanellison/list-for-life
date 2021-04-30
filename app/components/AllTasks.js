@@ -6,29 +6,52 @@ import {
   Typography,
   IconButton,
   Grid,
-  GridItem,
   TextField,
+  makeStyles,
+  Divider,
 } from "@material-ui/core";
-import { Edit } from "@material-ui/icons";
-import SaveIcon from "@material-ui/icons/Save";
+import { Edit, Add } from "@material-ui/icons";
 import DoneIcon from "@material-ui/icons/Done";
 import { useParams } from "react-router-dom";
 
-import history from "../history";
 import {
   fetchTasks,
   deleteTaskThunk,
   updateListTitleThunk,
 } from "../redux/tasks";
-import { putList } from "../redux/lists";
+
 import TaskListItem from "./TaskListItem";
 import AddTask from "./AddTask";
+import AddTaskField from "./AddTaskField";
+
+const useStyles = makeStyles({
+  typ: {
+    color: "#ffffff",
+  },
+  editIcons: {
+    color: "#ffffff",
+  },
+  greenIcons: {
+    color: "#ffffff",
+    "&:hover": {
+      color: "#66ff33",
+    },
+  },
+  redIcons: {
+    color: "#ffffff",
+    "&:hover": {
+      color: "#ff0000",
+    },
+  },
+});
 
 const AllTasks = (props) => {
+  const classes = useStyles();
   let { list } = props;
   const { listId } = useParams();
   const [editTitleOpen, setEditTitleOpen] = useState(false);
   const [title, setTitle] = useState(list.title);
+  const [addTaskOpen, setAddTaskOpen] = useState(false);
 
   const handleSaveTitle = () => {
     props.updateList(list.id, { title });
@@ -47,7 +70,11 @@ const AllTasks = (props) => {
     <div>
       <Grid container direction="row">
         <Grid item>
-          {!editTitleOpen && <Typography variant="h4">{title}</Typography>}
+          {!editTitleOpen && (
+            <Typography className={classes.typ} variant="h3">
+              {title}
+            </Typography>
+          )}
           {editTitleOpen && (
             <TextField
               defaultValue={title}
@@ -60,16 +87,20 @@ const AllTasks = (props) => {
         <Grid item>
           {!editTitleOpen && (
             <IconButton
+              className={classes.greenIcons}
               onClick={() => {
                 setEditTitleOpen(true);
               }}
             >
-              <Edit />
+              <Edit fontSize="small" />
             </IconButton>
           )}
 
           {editTitleOpen && (
-            <IconButton onClick={handleSaveTitle}>
+            <IconButton
+              className={classes.greenIcons}
+              onClick={handleSaveTitle}
+            >
               <DoneIcon />
             </IconButton>
           )}
@@ -89,10 +120,21 @@ const AllTasks = (props) => {
               }
             })
             .map((task) => {
-              return <TaskListItem task={task} key={task.id} />;
+              return (
+                <div key={task.id}>
+                  <TaskListItem task={task} />
+                  <Divider />
+                </div>
+              );
             })}
         </List>
-        <AddTask />
+        {addTaskOpen && <AddTaskField setAddTaskOpen={setAddTaskOpen} />}
+        <IconButton
+          className={classes.greenIcons}
+          onClick={() => setAddTaskOpen(true)}
+        >
+          <Add fontSize="large" />
+        </IconButton>
       </Paper>
     </div>
   );

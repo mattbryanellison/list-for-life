@@ -11,6 +11,7 @@ import {
   DialogActions,
   DialogContent,
   TextField,
+  makeStyles,
 } from "@material-ui/core";
 import { Delete, Edit, Close } from "@material-ui/icons";
 import history from "../history";
@@ -18,8 +19,16 @@ import history from "../history";
 import { fetchLists, deleteListThunk, putList } from "../redux/lists";
 
 // import EditListDialog from "./EditListDialog";
+const useStyles = makeStyles({
+  rowBox: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+});
 
 const AllLists = (props) => {
+  const classes = useStyles();
   let { lists } = props;
   // let { listId } = useParams();
   // console.log(listId);
@@ -49,27 +58,27 @@ const AllLists = (props) => {
             })
             .map((list) => {
               return (
-                <ListItem
-                  button
-                  key={list.id}
-                  title={list.title}
-                  onClick={() => {
-                    history.push(`/lists/${list.id}`);
-                  }}
-                >
-                  <Typography variant="h4">{list.title}</Typography>
-                  {/* <IconButton onClick={() => {}}>
-                  <Edit />
-                </IconButton> */}
+                <div className={classes.rowBox} key={list.id}>
+                  <ListItem
+                    button
+                    title={list.title}
+                    onClick={() => {
+                      history.push(`/lists/${list.id}`);
+                    }}
+                  >
+                    <Typography variant="h4">{list.title}</Typography>
+                    {/* <IconButton onClick={() => {}}>
+                <Edit />
+              </IconButton> */}
+                  </ListItem>
                   <IconButton
                     onClick={() => {
                       props.deleteList(list.id);
-                      history.go(-1);
                     }}
                   >
                     <Delete />
                   </IconButton>
-                </ListItem>
+                </div>
               );
             })}
         </List>

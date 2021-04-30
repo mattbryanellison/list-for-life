@@ -15,11 +15,18 @@ import { endSessionUser } from "../redux/user";
 import history from "../history";
 
 const useStyles = makeStyles((theme) => ({
+  icons: {
+    color: "#66ff33",
+  },
+  tlbr: {
+    backgroundColor: "#6600cc",
+  },
   root: {
     flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    color: "#66ff33",
   },
   spacer: {
     flexGrow: 1,
@@ -52,6 +59,7 @@ const Navbar = (props) => {
     >
       {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem> */}
       <MenuItem
+        className={classes.icons}
         onClick={() => {
           handleMenuClose();
           props.logout();
@@ -65,7 +73,7 @@ const Navbar = (props) => {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar className={classes.tlbr}>
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -82,6 +90,7 @@ const Navbar = (props) => {
             Logout
           </Button> */}
           <IconButton
+            className={classes.icons}
             edge="end"
             aria-label="account of current user"
             aria-controls={menuId}

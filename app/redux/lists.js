@@ -26,10 +26,10 @@ const updateList = (list) => {
   };
 };
 
-const deleteList = (list) => {
+const deleteList = (id) => {
   return {
     type: DELETE_LIST,
-    list,
+    id,
   };
 };
 

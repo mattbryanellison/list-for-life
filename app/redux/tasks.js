@@ -114,7 +114,7 @@ export default (state = initialState, action) => {
       const updatedTasks = state.tasks.filter((currentTask) => {
         return currentTask.id !== action.task.id;
       });
-      updatedTasks.push(action.task);
+      updatedTasks.unshift(action.task);
       return { ...state, tasks: updatedTasks };
     case DELETE_TASK:
       const deletedTasks = state.tasks.filter((currentTask) => {
