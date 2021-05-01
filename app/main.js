@@ -9,11 +9,13 @@ import history from "./history";
 import store from "./store";
 import Routes from "./components/Routes";
 
-//TODO: put dark theme on
-
 const darkTheme = createMuiTheme({
   palette: {
     type: "dark",
+  },
+  typography: {
+    fontFamily: "Quicksand",
+    fontWeightLight: 400,
   },
 });
 render(

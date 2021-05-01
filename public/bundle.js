@@ -62495,11 +62495,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- //TODO: put dark theme on
 
 const darkTheme = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_6__.default)({
   palette: {
     type: "dark"
+  },
+  typography: {
+    fontFamily: "Quicksand",
+    fontWeightLight: 400
   }
 });
 (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__.Provider, {
