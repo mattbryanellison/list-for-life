@@ -25,6 +25,10 @@ import AddTask from "./AddTask";
 import AddTaskField from "./AddTaskField";
 
 const useStyles = makeStyles({
+  container: {
+    paddingBottom: 0,
+    paddingTop: 0,
+  },
   typ: {
     color: "#ffffff",
   },
@@ -108,7 +112,7 @@ const AllTasks = (props) => {
       </Grid>
 
       <Paper>
-        <List>
+        <List className={classes.container}>
           {list.tasks
             .sort((a, b) => {
               if (a.completed === true && b.completed === false) {

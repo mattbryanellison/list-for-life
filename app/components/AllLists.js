@@ -25,6 +25,10 @@ const useStyles = makeStyles({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  // container: {
+  //   paddingBottom: 0,
+  //   paddingTop: 0,
+  // },
 });
 
 const AllLists = (props) => {
@@ -60,6 +64,7 @@ const AllLists = (props) => {
               return (
                 <div className={classes.rowBox} key={list.id}>
                   <ListItem
+                    // className={classes.container}
                     button
                     title={list.title}
                     onClick={() => {

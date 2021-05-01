@@ -13,7 +13,14 @@ import {
   TextField,
   Divider,
 } from "@material-ui/core";
-import { Info, Edit, Done, DeleteForever, Close } from "@material-ui/icons";
+import {
+  Info,
+  Edit,
+  Done,
+  DeleteForever,
+  Close,
+  Cancel,
+} from "@material-ui/icons";
 
 import InfoDialog from "./InfoDialog";
 import EditDialog from "./EditDialog";
@@ -144,18 +151,28 @@ const TaskListItem = (props) => {
                 className={classes.redIcons}
                 onClick={onDeleteHandler}
               >
-                <Close fontSize="small" />
+                <DeleteForever fontSize="small" />
               </IconButton>
             </div>
           )}
 
           {editTitleOpen && (
-            <IconButton
-              className={classes.greenIcons}
-              onClick={submitUpdateHandler}
-            >
-              <Done />
-            </IconButton>
+            <div className={classes.rowBoxItem}>
+              <IconButton
+                className={classes.greenIcons}
+                onClick={submitUpdateHandler}
+              >
+                <Done />
+              </IconButton>
+              <IconButton
+                className={classes.redIcons}
+                onClick={() => {
+                  setEditTitleOpen(false);
+                }}
+              >
+                <Cancel />
+              </IconButton>
+            </div>
           )}
         </div>
       </div>
