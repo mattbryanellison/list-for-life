@@ -12,8 +12,9 @@ import {
   DialogContent,
   TextField,
   makeStyles,
+  Divider,
 } from "@material-ui/core";
-import { Delete, Edit, Close } from "@material-ui/icons";
+import { Delete, DeleteForever, Edit, Close } from "@material-ui/icons";
 import history from "../history";
 
 import { fetchLists, deleteListThunk, putList } from "../redux/lists";
@@ -25,10 +26,16 @@ const useStyles = makeStyles({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  // container: {
-  //   paddingBottom: 0,
-  //   paddingTop: 0,
-  // },
+  container: {
+    paddingBottom: 0,
+    paddingTop: 0,
+  },
+  redIcons: {
+    color: "#ffffff",
+    "&:hover": {
+      color: "red",
+    },
+  },
 });
 
 const AllLists = (props) => {
@@ -55,34 +62,36 @@ const AllLists = (props) => {
   return (
     <div>
       <Paper>
-        <List>
+        <List className={classes.container}>
           {lists
             .sort((a, b) => {
               return b.lastUpdate - a.lastUpdate;
             })
             .map((list) => {
               return (
-                <div className={classes.rowBox} key={list.id}>
-                  <ListItem
-                    // className={classes.container}
-                    button
-                    title={list.title}
-                    onClick={() => {
-                      history.push(`/lists/${list.id}`);
-                    }}
-                  >
-                    <Typography variant="h4">{list.title}</Typography>
-                    {/* <IconButton onClick={() => {}}>
-                <Edit />
-              </IconButton> */}
-                  </ListItem>
-                  <IconButton
-                    onClick={() => {
-                      props.deleteList(list.id);
-                    }}
-                  >
-                    <Delete />
-                  </IconButton>
+                <div key={list.id}>
+                  <div className={classes.rowBox}>
+                    <ListItem
+                      button
+                      title={list.title}
+                      onClick={() => {
+                        history.push(`/lists/${list.id}`);
+                      }}
+                    >
+                      <Typography variant="h4">{list.title}</Typography>
+                    </ListItem>
+                    <IconButton
+                      className={classes.redIcons}
+                      onClick={() => {
+                        props.deleteList(list.id);
+                      }}
+                    >
+                      <DeleteForever />
+                    </IconButton>
+                  </div>
+                  <div>
+                    <Divider />
+                  </div>
                 </div>
               );
             })}

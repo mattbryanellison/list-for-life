@@ -94,11 +94,24 @@ const TaskListItem = (props) => {
     setEditTitleOpen(false);
   };
 
-  const onEnter = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      submitUpdateHandler();
+      props.updateTask(listId, task.id, {
+        title,
+      });
+      setEditTitleOpen(false);
+    }
+
+    if (e.keyCode === 27) {
+      setEditTitleOpen(false);
     }
   };
+
+  // const onEnter = (e) => {
+  //   if (e.key === "Enter") {
+  //     submitUpdateHandler();
+  //   }
+  // };
 
   return (
     <div>
@@ -124,9 +137,10 @@ const TaskListItem = (props) => {
             )}
             {editTitleOpen && (
               <TextField
+                variant="outlined"
                 autoFocus={true}
                 defaultValue={title}
-                onKeyPress={onEnter}
+                onKeyDown={handleKeyDown}
                 onChange={(event) => {
                   setTitle(event.target.value);
                 }}
@@ -140,6 +154,7 @@ const TaskListItem = (props) => {
           {!editTitleOpen && (
             <div className={classes.rowBoxItem}>
               <IconButton
+                variant="contained"
                 className={classes.greenIcons}
                 onClick={() => {
                   setEditTitleOpen(true);

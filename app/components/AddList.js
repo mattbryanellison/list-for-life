@@ -74,6 +74,7 @@ const AddList = (props) => {
       {textfieldIsOpen && (
         <div className={classes.rowBoxSpaceBetween}>
           <TextField
+            variant="outlined"
             autoFocus
             margin="dense"
             onKeyDown={handleKeyDown}

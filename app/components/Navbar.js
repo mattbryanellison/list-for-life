@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Menu from "@material-ui/core/Menu";
+import { Menu, Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Home from "@material-ui/icons/Home";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -16,7 +16,7 @@ import history from "../history";
 
 const useStyles = makeStyles((theme) => ({
   icons: {
-    color: "#66ff33",
+    color: "#ffffff",
   },
   tlbr: {
     backgroundColor: "#6600cc",
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    color: "#66ff33",
+    color: "#ffffff",
   },
   spacer: {
     flexGrow: 1,
@@ -74,6 +74,17 @@ const Navbar = (props) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.tlbr}>
+          {/* <Button
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+            onClick={() => {
+              history.push("/home");
+            }}
+          >
+            Listfor.life
+          </Button> */}
           <IconButton
             edge="start"
             className={classes.menuButton}

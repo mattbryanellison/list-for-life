@@ -10,7 +10,7 @@ import {
   makeStyles,
   Divider,
 } from "@material-ui/core";
-import { Edit, Add } from "@material-ui/icons";
+import { Edit, Add, Cancel } from "@material-ui/icons";
 import DoneIcon from "@material-ui/icons/Done";
 import { useParams } from "react-router-dom";
 
@@ -47,6 +47,23 @@ const useStyles = makeStyles({
       color: "#ff0000",
     },
   },
+  rowBoxItemWide: {
+    display: "flex",
+    width: "100%",
+  },
+  rowBoxItem: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  rowBox: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  rowBoxSpaceBetween: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+  },
 });
 
 const AllTasks = (props) => {
@@ -62,6 +79,16 @@ const AllTasks = (props) => {
     setEditTitleOpen(false);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      props.updateList(list.id, { title });
+      setEditTitleOpen(false);
+    }
+    if (e.keyCode === 27) {
+      setEditTitleOpen(false);
+    }
+  };
+
   useEffect(() => {
     props.loadAllTasks(listId);
   }, []);
@@ -72,44 +99,60 @@ const AllTasks = (props) => {
 
   return (
     <div>
-      <Grid container direction="row">
-        <Grid item>
-          {!editTitleOpen && (
-            <Typography className={classes.typ} variant="h3">
-              {title}
-            </Typography>
-          )}
-          {editTitleOpen && (
-            <TextField
-              defaultValue={title}
-              onChange={(event) => {
-                setTitle(event.target.value);
-              }}
-            />
-          )}
-        </Grid>
-        <Grid item>
-          {!editTitleOpen && (
-            <IconButton
-              className={classes.greenIcons}
-              onClick={() => {
-                setEditTitleOpen(true);
-              }}
-            >
-              <Edit fontSize="small" />
-            </IconButton>
-          )}
+      {/* <Grid container direction="row"> */}
+      <div className={classes.rowBoxSpaceBetween}>
+        {/* <Grid item> */}
+        {!editTitleOpen && (
+          <Typography className={classes.typ} variant="h3">
+            {title}
+          </Typography>
+        )}
+        {editTitleOpen && (
+          <TextField
+            variant="outlined"
+            defaultValue={title}
+            autoFocus
+            // fullWidth
+            onKeyDown={handleKeyDown}
+            onChange={(event) => {
+              setTitle(event.target.value);
+            }}
+          />
+        )}
+        {/* </Grid> */}
+        {/* <Grid item> */}
+        {!editTitleOpen && (
+          <IconButton
+            className={classes.greenIcons}
+            onClick={() => {
+              setEditTitleOpen(true);
+            }}
+          >
+            <Edit fontSize="small" />
+          </IconButton>
+        )}
 
-          {editTitleOpen && (
+        {editTitleOpen && (
+          <div>
             <IconButton
               className={classes.greenIcons}
               onClick={handleSaveTitle}
             >
               <DoneIcon />
             </IconButton>
-          )}
-        </Grid>
-      </Grid>
+            <IconButton
+              className={classes.redIcons}
+              onClick={() => {
+                setEditTitleOpen(false);
+              }}
+            >
+              <Cancel />
+            </IconButton>
+          </div>
+        )}
+        {/* </Grid> */}
+      </div>
+      {/* </Grid> */}
 
       <Paper>
         <List className={classes.container}>
@@ -133,12 +176,15 @@ const AllTasks = (props) => {
             })}
         </List>
         {addTaskOpen && <AddTaskField setAddTaskOpen={setAddTaskOpen} />}
-        <IconButton
-          className={classes.greenIcons}
-          onClick={() => setAddTaskOpen(true)}
-        >
-          <Add fontSize="large" />
-        </IconButton>
+        {!addTaskOpen && (
+          <IconButton
+            disabled={addTaskOpen}
+            className={classes.greenIcons}
+            onClick={() => setAddTaskOpen(true)}
+          >
+            <Add fontSize="large" />
+          </IconButton>
+        )}
       </Paper>
     </div>
   );

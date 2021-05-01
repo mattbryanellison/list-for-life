@@ -22,11 +22,20 @@ const useStyles = makeStyles({
       color: "red",
     },
   },
+  rowBoxSpaceBetween: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  rowBox: {
+    display: "flex",
+  },
 });
 
 const AddTaskField = (props) => {
   const classes = useStyles();
   const [taskName, setTaskName] = useState("");
+  const [textfieldIsOpen, setTextfieldIsOpen] = useState(false);
   const [errorText, setErrorText] = useState("");
   const { listId } = useParams();
 
@@ -49,14 +58,36 @@ const AddTaskField = (props) => {
     props.setAddTaskOpen(false);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      if (taskName === "") {
+        setErrorText("Add an Item or Cancel");
+        return;
+      }
+      const task = {
+        title: taskName,
+        completed: false,
+      };
+      props.addNewTask(task, listId);
+      props.setAddTaskOpen(false);
+    }
+    if (e.keyCode === 27) {
+      props.setAddTaskOpen(false);
+    }
+  };
+
   return (
-    <div>
+    <div className={classes.rowBoxSpaceBetween}>
       <TextField
+        variant="outlined"
+        label="List Item"
         className={classes.txtfld}
+        fullWidth
         autoFocus
         defaultValue={taskName}
         error={errorText.length ? true : false}
         helperText={errorText}
+        onKeyDown={handleKeyDown}
         onChange={(event) => {
           setErrorText("");
           setTaskName(event.target.value);
