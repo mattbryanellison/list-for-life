@@ -86,8 +86,8 @@ const AddTaskField = (props) => {
   };
 
   return (
-    <ClickAwayListener onClickAway={handleCancel}>
-      <div className={classes.rowBoxSpaceBetween}>
+    <div className={classes.rowBoxSpaceBetween}>
+      <ClickAwayListener onClickAway={handleCancel}>
         <TextField
           variant="outlined"
           label="List Item"
@@ -103,18 +103,18 @@ const AddTaskField = (props) => {
             setTaskName(event.target.value);
           }}
         />
-        <IconButton
-          onClick={handleAddTask}
-          className={classes.greenIcons}
-          disabled={!taskName}
-        >
-          <Done />
-        </IconButton>
-        <IconButton onClick={handleCancel} className={classes.redIcons}>
-          <Cancel />
-        </IconButton>
-      </div>
-    </ClickAwayListener>
+      </ClickAwayListener>
+      <IconButton
+        onClick={handleAddTask}
+        className={classes.greenIcons}
+        disabled={!taskName}
+      >
+        <Done />
+      </IconButton>
+      <IconButton onClick={handleCancel} className={classes.redIcons}>
+        <Cancel />
+      </IconButton>
+    </div>
   );
 };
 

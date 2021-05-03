@@ -49,11 +49,13 @@ const AddList = (props) => {
     };
     props.addNewList(list);
     setTextfieldIsOpen(false);
+    setTitle("");
   };
 
   const onEnter = (e) => {
     if (e.key === "Enter") {
       handleSubmitList();
+      setTitle("");
     }
   };
 
@@ -61,11 +63,13 @@ const AddList = (props) => {
     if (e.keyCode === 27) {
       setTextfieldIsOpen(false);
       setErrorText("");
+      setTitle("");
     }
   };
 
   const handleClickAway = () => {
     setTextfieldIsOpen(false);
+    setTitle("");
   };
 
   return (
@@ -82,8 +86,8 @@ const AddList = (props) => {
       )}
 
       {textfieldIsOpen && (
-        <ClickAwayListener onClickAway={handleClickAway}>
-          <div className={classes.rowBoxSpaceBetween}>
+        <div className={classes.rowBoxSpaceBetween}>
+          <ClickAwayListener onClickAway={handleClickAway}>
             <TextField
               variant="outlined"
               autoFocus
@@ -101,25 +105,25 @@ const AddList = (props) => {
                 setTitle(event.target.value);
               }}
             />
-            <div className={classes.rowBox}>
-              <IconButton
-                onClick={handleSubmitList}
-                onKeyPress={onEnter}
-                disabled={!title}
-              >
-                <Done />
-              </IconButton>
-              <IconButton
-                onClick={() => {
-                  setTextfieldIsOpen(false);
-                  setErrorText("");
-                }}
-              >
-                <Cancel />
-              </IconButton>
-            </div>
+          </ClickAwayListener>
+          <div className={classes.rowBox}>
+            <IconButton
+              onClick={handleSubmitList}
+              onKeyPress={onEnter}
+              disabled={!title}
+            >
+              <Done />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                setTextfieldIsOpen(false);
+                setErrorText("");
+              }}
+            >
+              <Cancel />
+            </IconButton>
           </div>
-        </ClickAwayListener>
+        </div>
       )}
     </div>
   );

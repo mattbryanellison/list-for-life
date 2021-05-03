@@ -123,6 +123,7 @@ const TaskListItem = (props) => {
   };
 
   const handleClickAway = () => {
+    console.log("HANDLE click away");
     setEditTitleOpen(false);
     props.setShowAddIcon(true);
     setTitle(task.title);
@@ -135,28 +136,28 @@ const TaskListItem = (props) => {
 
   return (
     <div>
-      <ClickAwayListener onClickAway={handleClickAway}>
-        <div className={classes.rowBox}>
-          <div className={classes.rowBoxItemWide}>
-            <ListItem button={!editTitleOpen} onClick={checkboxHandler}>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      disabled={editTitleOpen}
-                      className={classes.typ}
-                      checked={completed}
-                      onChange={checkboxHandler}
-                    />
-                  }
-                />
-              </FormGroup>
-              {!editTitleOpen && (
-                <Typography className={classes.typ} variant="body1">
-                  {title}
-                </Typography>
-              )}
-              {editTitleOpen && (
+      <div className={classes.rowBox}>
+        <div className={classes.rowBoxItemWide}>
+          <ListItem button={!editTitleOpen} onClick={checkboxHandler}>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={editTitleOpen}
+                    className={classes.typ}
+                    checked={completed}
+                    onChange={checkboxHandler}
+                  />
+                }
+              />
+            </FormGroup>
+            {!editTitleOpen && (
+              <Typography className={classes.typ} variant="body1">
+                {title}
+              </Typography>
+            )}
+            {editTitleOpen && (
+              <ClickAwayListener onClickAway={handleClickAway}>
                 <TextField
                   variant="outlined"
                   autoFocus={true}
@@ -169,58 +170,60 @@ const TaskListItem = (props) => {
                     setTitle(event.target.value);
                   }}
                 />
-              )}
-            </ListItem>
-            {/* </Grid> */}
-          </div>
-          {/* <Grid container direction="row"> */}
-          <div className={classes.rowBoxItem}>
-            {!editTitleOpen && (
-              <div className={classes.rowBoxItem}>
-                <IconButton
-                  variant="contained"
-                  className={classes.greenIcons}
-                  onClick={() => {
-                    setEditTitleOpen(true);
-                    props.setShowAddIcon(false);
-                    setErrorText("");
-                  }}
-                >
-                  <Edit fontSize="small" />
-                </IconButton>
-                <IconButton
-                  className={classes.redIcons}
-                  onClick={onDeleteHandler}
-                >
-                  <DeleteForever fontSize="small" />
-                </IconButton>
-              </div>
+              </ClickAwayListener>
             )}
-
-            {editTitleOpen && (
-              <div className={classes.rowBoxItem}>
-                <IconButton
-                  className={classes.greenIcons}
-                  onClick={submitUpdateHandler}
-                  disabled={!title}
-                >
-                  <Done />
-                </IconButton>
-                <IconButton
-                  className={classes.redIcons}
-                  onClick={() => {
-                    setEditTitleOpen(false);
-                    props.setShowAddIcon(true);
-                    setTitle(task.title);
-                  }}
-                >
-                  <Cancel />
-                </IconButton>
-              </div>
-            )}
-          </div>
+          </ListItem>
+          {/* </Grid> */}
         </div>
-      </ClickAwayListener>
+        {/* <Grid container direction="row"> */}
+        <div className={classes.rowBoxItem}>
+          {!editTitleOpen && (
+            <div className={classes.rowBoxItem}>
+              <IconButton
+                variant="contained"
+                className={classes.greenIcons}
+                onClick={() => {
+                  setEditTitleOpen(true);
+                  setTimeout(() => {
+                    props.setShowAddIcon(false);
+                  }, 0);
+                  setErrorText("");
+                }}
+              >
+                <Edit fontSize="small" />
+              </IconButton>
+              <IconButton
+                className={classes.redIcons}
+                onClick={onDeleteHandler}
+              >
+                <DeleteForever fontSize="small" />
+              </IconButton>
+            </div>
+          )}
+
+          {editTitleOpen && (
+            <div className={classes.rowBoxItem}>
+              <IconButton
+                className={classes.greenIcons}
+                onClick={submitUpdateHandler}
+                disabled={!title}
+              >
+                <Done />
+              </IconButton>
+              <IconButton
+                className={classes.redIcons}
+                onClick={() => {
+                  setEditTitleOpen(false);
+                  props.setShowAddIcon(true);
+                  setTitle(task.title);
+                }}
+              >
+                <Cancel />
+              </IconButton>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

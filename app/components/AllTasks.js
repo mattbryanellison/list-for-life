@@ -105,6 +105,7 @@ const AllTasks = (props) => {
   };
 
   const handleClickAway = () => {
+    console.log("HANDLED CLICK AWAY");
     setEditTitleOpen(false);
     setShowAddIcon(true);
     setTitle(list.title);
@@ -121,15 +122,16 @@ const AllTasks = (props) => {
   return (
     <div>
       {/* <Grid container direction="row"> */}
-      <ClickAwayListener onClickAway={handleClickAway}>
-        <div className={classes.rowBoxSpaceBetween}>
-          {/* <Grid item> */}
-          {!editTitleOpen && (
-            <Typography className={classes.typ} variant="h5">
-              {title}
-            </Typography>
-          )}
-          {editTitleOpen && (
+
+      <div className={classes.rowBoxSpaceBetween}>
+        {/* <Grid item> */}
+        {!editTitleOpen && (
+          <Typography className={classes.typ} variant="h5">
+            {title}
+          </Typography>
+        )}
+        {editTitleOpen && (
+          <ClickAwayListener onClickAway={handleClickAway}>
             <TextField
               variant="outlined"
               defaultValue={title}
@@ -143,46 +145,49 @@ const AllTasks = (props) => {
                 setTitle(event.target.value);
               }}
             />
-          )}
-          {/* </Grid> */}
-          {/* <Grid item> */}
-          {!editTitleOpen && (
+          </ClickAwayListener>
+        )}
+        {/* </Grid> */}
+        {/* <Grid item> */}
+        {!editTitleOpen && (
+          <IconButton
+            className={classes.greenIcons}
+            onClick={() => {
+              setEditTitleOpen(true);
+              setTimeout(() => {
+                setShowAddIcon(false);
+              }, 0);
+              setErrorText("");
+            }}
+          >
+            <Edit fontSize="small" />
+          </IconButton>
+        )}
+
+        {editTitleOpen && (
+          <div>
             <IconButton
               className={classes.greenIcons}
+              onClick={handleSaveTitle}
+              disabled={!title}
+            >
+              <DoneIcon />
+            </IconButton>
+            <IconButton
+              className={classes.redIcons}
               onClick={() => {
-                setEditTitleOpen(true);
-                setShowAddIcon(false);
-                setErrorText("");
+                setEditTitleOpen(false);
+                setShowAddIcon(true);
+                setTitle(list.title);
               }}
             >
-              <Edit fontSize="small" />
+              <Cancel />
             </IconButton>
-          )}
-
-          {editTitleOpen && (
-            <div>
-              <IconButton
-                className={classes.greenIcons}
-                onClick={handleSaveTitle}
-                disabled={!title}
-              >
-                <DoneIcon />
-              </IconButton>
-              <IconButton
-                className={classes.redIcons}
-                onClick={() => {
-                  setEditTitleOpen(false);
-                  setShowAddIcon(true);
-                  setTitle(list.title);
-                }}
-              >
-                <Cancel />
-              </IconButton>
-            </div>
-          )}
-          {/* </Grid> */}
-        </div>
-      </ClickAwayListener>
+          </div>
+        )}
+        {/* </Grid> */}
+      </div>
+      {/* </ClickAwayListener> */}
       {/* </Grid> */}
 
       <Paper>
@@ -214,7 +219,6 @@ const AllTasks = (props) => {
         )}
         {showAddIcon && (
           <IconButton
-            disabled={addTaskOpen}
             className={classes.greenIcons}
             onClick={() => {
               setAddTaskOpen(true);
