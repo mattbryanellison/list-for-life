@@ -78,7 +78,7 @@ const AllLists = (props) => {
                         history.push(`/lists/${list.id}`);
                       }}
                     >
-                      <Typography variant="h4">{list.title}</Typography>
+                      <Typography variant="h5">{list.title}</Typography>
                     </ListItem>
                     <IconButton
                       className={classes.redIcons}

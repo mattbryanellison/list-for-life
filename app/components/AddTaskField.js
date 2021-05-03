@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { TextField, IconButton, makeStyles } from "@material-ui/core";
+import {
+  TextField,
+  IconButton,
+  makeStyles,
+  ClickAwayListener,
+} from "@material-ui/core";
 import { Done, Cancel } from "@material-ui/icons";
 
 import { postTask } from "../redux/tasks";
@@ -51,17 +56,19 @@ const AddTaskField = (props) => {
     };
     props.addNewTask(task, listId);
     props.setAddTaskOpen(false);
+    props.setShowAddIcon(true);
   };
 
   const handleCancel = () => {
     setTaskName("");
     props.setAddTaskOpen(false);
+    props.setShowAddIcon(true);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (taskName === "") {
-        setErrorText("Add an Item or Cancel");
+        setErrorText("Add a list item or cancel!");
         return;
       }
       const task = {
@@ -70,36 +77,44 @@ const AddTaskField = (props) => {
       };
       props.addNewTask(task, listId);
       props.setAddTaskOpen(false);
+      props.setShowAddIcon(true);
     }
     if (e.keyCode === 27) {
       props.setAddTaskOpen(false);
+      props.setShowAddIcon(true);
     }
   };
 
   return (
-    <div className={classes.rowBoxSpaceBetween}>
-      <TextField
-        variant="outlined"
-        label="List Item"
-        className={classes.txtfld}
-        fullWidth
-        autoFocus
-        defaultValue={taskName}
-        error={errorText.length ? true : false}
-        helperText={errorText}
-        onKeyDown={handleKeyDown}
-        onChange={(event) => {
-          setErrorText("");
-          setTaskName(event.target.value);
-        }}
-      />
-      <IconButton onClick={handleAddTask} className={classes.greenIcons}>
-        <Done />
-      </IconButton>
-      <IconButton onClick={handleCancel} className={classes.redIcons}>
-        <Cancel />
-      </IconButton>
-    </div>
+    <ClickAwayListener onClickAway={handleCancel}>
+      <div className={classes.rowBoxSpaceBetween}>
+        <TextField
+          variant="outlined"
+          label="List Item"
+          className={classes.txtfld}
+          fullWidth
+          autoFocus
+          defaultValue={taskName}
+          error={errorText.length ? true : false}
+          helperText={errorText}
+          onKeyDown={handleKeyDown}
+          onChange={(event) => {
+            setErrorText("");
+            setTaskName(event.target.value);
+          }}
+        />
+        <IconButton
+          onClick={handleAddTask}
+          className={classes.greenIcons}
+          disabled={!taskName}
+        >
+          <Done />
+        </IconButton>
+        <IconButton onClick={handleCancel} className={classes.redIcons}>
+          <Cancel />
+        </IconButton>
+      </div>
+    </ClickAwayListener>
   );
 };
 

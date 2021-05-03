@@ -31,6 +31,11 @@ const useStyles = makeStyles((theme) => ({
   spacer: {
     flexGrow: 1,
   },
+  logo: {
+    borderWidth: "2px",
+    borderStyle: "solid",
+    padding: "3px",
+  },
 }));
 
 const Navbar = (props) => {
@@ -94,7 +99,10 @@ const Navbar = (props) => {
               history.push("/home");
             }}
           >
-            <Home />
+            {/* <Home /> */}
+            <Typography variant="h4" className={classes.logo}>
+              ListFor.Life
+            </Typography>
           </IconButton>
           <div className={classes.spacer}></div>
           {/* <Button color="inherit" onClick={logoutButtonHandler}>

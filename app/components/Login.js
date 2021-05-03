@@ -12,11 +12,17 @@ import Signup from "./Signup";
 
 const useStyles = makeStyles(() => ({
   root: {
-    width: "25%",
-    maxWidth: "25%",
+    width: "50%",
+    maxWidth: "50%",
+    margin: 10,
+    padding: "5px",
   },
   button: {
-    margin: 5,
+    // backgroundColor: "#4d0099",
+    margin: 10,
+  },
+  emailTextfield: {
+    marginBottom: "5px",
   },
 }));
 
@@ -37,30 +43,28 @@ const Login = (props) => {
   return (
     <Card className={classes.root}>
       <form noValidate autoComplete="off">
-        <Card>
-          <TextField
-            id="outlined-basic"
-            label="Email"
-            fullWidth
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
-          />
-          <TextField
-            id="standard-password-input"
-            label="Password"
-            type="password"
-            fullWidth
-            autoComplete="current-password"
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-          />
-        </Card>
+        <TextField
+          className={classes.emailTextfield}
+          id="outlined-basic"
+          label="Email"
+          fullWidth
+          onChange={(event) => {
+            setEmail(event.target.value);
+          }}
+        />
+        <TextField
+          id="standard-password-input"
+          label="Password"
+          type="password"
+          fullWidth
+          autoComplete="current-password"
+          onChange={(event) => {
+            setPassword(event.target.value);
+          }}
+        />
         <Button
           className={classes.button}
           variant="contained"
-          color="primary"
           onClick={handleSubmit}
         >
           Log In

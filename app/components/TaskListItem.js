@@ -12,6 +12,7 @@ import {
   Grid,
   TextField,
   Divider,
+  ClickAwayListener,
 } from "@material-ui/core";
 import {
   Info,
@@ -67,6 +68,7 @@ const TaskListItem = (props) => {
   // const [infoDialogIsOpen, openInfoDialog] = useState(false);
   const [editTitleOpen, setEditTitleOpen] = useState(false);
   const [title, setTitle] = useState(task.title);
+  const [errorText, setErrorText] = useState("");
   const [completed, setCompleted] = useState(task.completed);
   // const [description, setDescription] = useState(task.description);
 
@@ -83,30 +85,48 @@ const TaskListItem = (props) => {
   };
 
   const submitUpdateHandler = () => {
+    if (title === "") {
+      setErrorText("Please enter a title!");
+      return;
+    }
     props.updateTask(listId, task.id, {
       title,
     });
     setEditTitleOpen(false);
+    props.setShowAddIcon(true);
   };
 
   const onDeleteHandler = () => {
     props.deleteTask(listId, task.id);
     setEditTitleOpen(false);
+    props.setShowAddIcon(true);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
+      if (title === "") {
+        setErrorText("Please enter a title!");
+        return;
+      }
       props.updateTask(listId, task.id, {
         title,
       });
       setEditTitleOpen(false);
+      props.setShowAddIcon(true);
     }
 
     if (e.keyCode === 27) {
       setEditTitleOpen(false);
+      props.setShowAddIcon(true);
+      setTitle(task.title);
     }
   };
 
+  const handleClickAway = () => {
+    setEditTitleOpen(false);
+    props.setShowAddIcon(true);
+    setTitle(task.title);
+  };
   // const onEnter = (e) => {
   //   if (e.key === "Enter") {
   //     submitUpdateHandler();
@@ -115,82 +135,92 @@ const TaskListItem = (props) => {
 
   return (
     <div>
-      <div className={classes.rowBox}>
-        <div className={classes.rowBoxItemWide}>
-          <ListItem button={!editTitleOpen} onClick={checkboxHandler}>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    disabled={editTitleOpen}
-                    className={classes.typ}
-                    checked={completed}
-                    onChange={checkboxHandler}
-                  />
-                }
-              />
-            </FormGroup>
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <div className={classes.rowBox}>
+          <div className={classes.rowBoxItemWide}>
+            <ListItem button={!editTitleOpen} onClick={checkboxHandler}>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      disabled={editTitleOpen}
+                      className={classes.typ}
+                      checked={completed}
+                      onChange={checkboxHandler}
+                    />
+                  }
+                />
+              </FormGroup>
+              {!editTitleOpen && (
+                <Typography className={classes.typ} variant="body1">
+                  {title}
+                </Typography>
+              )}
+              {editTitleOpen && (
+                <TextField
+                  variant="outlined"
+                  autoFocus={true}
+                  defaultValue={title}
+                  onKeyDown={handleKeyDown}
+                  error={errorText.length ? true : false}
+                  helperText={errorText}
+                  onChange={(event) => {
+                    setErrorText("");
+                    setTitle(event.target.value);
+                  }}
+                />
+              )}
+            </ListItem>
+            {/* </Grid> */}
+          </div>
+          {/* <Grid container direction="row"> */}
+          <div className={classes.rowBoxItem}>
             {!editTitleOpen && (
-              <Typography className={classes.typ} variant="h5">
-                {title}
-              </Typography>
+              <div className={classes.rowBoxItem}>
+                <IconButton
+                  variant="contained"
+                  className={classes.greenIcons}
+                  onClick={() => {
+                    setEditTitleOpen(true);
+                    props.setShowAddIcon(false);
+                    setErrorText("");
+                  }}
+                >
+                  <Edit fontSize="small" />
+                </IconButton>
+                <IconButton
+                  className={classes.redIcons}
+                  onClick={onDeleteHandler}
+                >
+                  <DeleteForever fontSize="small" />
+                </IconButton>
+              </div>
             )}
-            {editTitleOpen && (
-              <TextField
-                variant="outlined"
-                autoFocus={true}
-                defaultValue={title}
-                onKeyDown={handleKeyDown}
-                onChange={(event) => {
-                  setTitle(event.target.value);
-                }}
-              />
-            )}
-          </ListItem>
-          {/* </Grid> */}
-        </div>
-        {/* <Grid container direction="row"> */}
-        <div className={classes.rowBoxItem}>
-          {!editTitleOpen && (
-            <div className={classes.rowBoxItem}>
-              <IconButton
-                variant="contained"
-                className={classes.greenIcons}
-                onClick={() => {
-                  setEditTitleOpen(true);
-                }}
-              >
-                <Edit fontSize="small" />
-              </IconButton>
-              <IconButton
-                className={classes.redIcons}
-                onClick={onDeleteHandler}
-              >
-                <DeleteForever fontSize="small" />
-              </IconButton>
-            </div>
-          )}
 
-          {editTitleOpen && (
-            <div className={classes.rowBoxItem}>
-              <IconButton
-                className={classes.greenIcons}
-                onClick={submitUpdateHandler}
-              >
-                <Done />
-              </IconButton>
-              <IconButton
-                className={classes.redIcons}
-                onClick={() => {
-                  setEditTitleOpen(false);
-                }}
-              >
-                <Cancel />
-              </IconButton>
-            </div>
-          )}
+            {editTitleOpen && (
+              <div className={classes.rowBoxItem}>
+                <IconButton
+                  className={classes.greenIcons}
+                  onClick={submitUpdateHandler}
+                  disabled={!title}
+                >
+                  <Done />
+                </IconButton>
+                <IconButton
+                  className={classes.redIcons}
+                  onClick={() => {
+                    setEditTitleOpen(false);
+                    props.setShowAddIcon(true);
+                    setTitle(task.title);
+                  }}
+                >
+                  <Cancel />
+                </IconButton>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </ClickAwayListener>
     </div>
   );
 };

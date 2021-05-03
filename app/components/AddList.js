@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { IconButton, TextField, makeStyles } from "@material-ui/core";
+import {
+  IconButton,
+  TextField,
+  makeStyles,
+  ClickAwayListener,
+} from "@material-ui/core";
 import { Add, Done, Cancel } from "@material-ui/icons";
 
 import { postList } from "../redux/lists";
@@ -36,7 +41,7 @@ const AddList = (props) => {
 
   const handleSubmitList = () => {
     if (title === "") {
-      setErrorText("Please provide list name");
+      setErrorText("Name your new list!");
       return;
     }
     const list = {
@@ -55,7 +60,12 @@ const AddList = (props) => {
   const handleKeyDown = (e) => {
     if (e.keyCode === 27) {
       setTextfieldIsOpen(false);
+      setErrorText("");
     }
+  };
+
+  const handleClickAway = () => {
+    setTextfieldIsOpen(false);
   };
 
   return (
@@ -72,37 +82,44 @@ const AddList = (props) => {
       )}
 
       {textfieldIsOpen && (
-        <div className={classes.rowBoxSpaceBetween}>
-          <TextField
-            variant="outlined"
-            autoFocus
-            margin="dense"
-            onKeyDown={handleKeyDown}
-            id="title"
-            label="List Name"
-            type="title"
-            fullWidth
-            onKeyPress={onEnter}
-            error={errorText.length ? true : false}
-            helperText={errorText}
-            onChange={(event) => {
-              setErrorText("");
-              setTitle(event.target.value);
-            }}
-          />
-          <div className={classes.rowBox}>
-            <IconButton onClick={handleSubmitList} onKeyPress={onEnter}>
-              <Done />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                setTextfieldIsOpen(false);
+        <ClickAwayListener onClickAway={handleClickAway}>
+          <div className={classes.rowBoxSpaceBetween}>
+            <TextField
+              variant="outlined"
+              autoFocus
+              margin="dense"
+              onKeyDown={handleKeyDown}
+              id="title"
+              label="List Name"
+              type="title"
+              fullWidth
+              onKeyPress={onEnter}
+              error={errorText.length ? true : false}
+              helperText={errorText}
+              onChange={(event) => {
+                setErrorText("");
+                setTitle(event.target.value);
               }}
-            >
-              <Cancel />
-            </IconButton>
+            />
+            <div className={classes.rowBox}>
+              <IconButton
+                onClick={handleSubmitList}
+                onKeyPress={onEnter}
+                disabled={!title}
+              >
+                <Done />
+              </IconButton>
+              <IconButton
+                onClick={() => {
+                  setTextfieldIsOpen(false);
+                  setErrorText("");
+                }}
+              >
+                <Cancel />
+              </IconButton>
+            </div>
           </div>
-        </div>
+        </ClickAwayListener>
       )}
     </div>
   );
