@@ -28,6 +28,9 @@ import EditDialog from "./EditDialog";
 import { putTask, deleteTaskThunk } from "../redux/tasks";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    fontFamily: "Roboto",
+  },
   typ: {
     color: "#ffffff",
   },
@@ -57,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
   rowBox: {
     display: "flex",
     justifyContent: "space-between",
+    backgroundColor: "#2b2b2b",
   },
 }));
 
@@ -135,7 +139,7 @@ const TaskListItem = (props) => {
   // };
 
   return (
-    <div>
+    <div className={classes.root}>
       <div className={classes.rowBox}>
         <div className={classes.rowBoxItemWide}>
           <ListItem button={!editTitleOpen} onClick={checkboxHandler}>

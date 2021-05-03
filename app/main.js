@@ -20,11 +20,24 @@ const darkTheme = createMuiTheme({
       main: "#6600cc",
     },
     background: {
+      //#2b2b2b, #1f1f14, #262626, #2f2f1e
       default: "#2b2b2b",
     },
   },
   typography: {
-    fontFamily: "Fredericka the Great",
+    fontFamily: "Roboto",
+    body1: {
+      fontWeight: 100,
+    },
+    h4: {
+      fontFamily: "Fredericka the Great",
+    },
+    h5: {
+      fontWeight: 300,
+    },
+    h6: {
+      fontWeight: 100,
+    },
     // fontWeightLight: 400,
   },
 });

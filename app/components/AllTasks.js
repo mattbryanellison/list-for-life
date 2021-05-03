@@ -64,6 +64,8 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "space-between",
     width: "100%",
+    alignItems: "center",
+    paddingLeft: "1.2em",
   },
 });
 
@@ -189,6 +191,7 @@ const AllTasks = (props) => {
       </div>
       {/* </ClickAwayListener> */}
       {/* </Grid> */}
+      <Divider></Divider>
 
       <Paper>
         <List className={classes.container}>
@@ -217,18 +220,18 @@ const AllTasks = (props) => {
             setShowAddIcon={setShowAddIcon}
           />
         )}
-        {showAddIcon && (
-          <IconButton
-            className={classes.greenIcons}
-            onClick={() => {
-              setAddTaskOpen(true);
-              setShowAddIcon(false);
-            }}
-          >
-            <Add fontSize="large" />
-          </IconButton>
-        )}
       </Paper>
+      {showAddIcon && (
+        <IconButton
+          className={classes.greenIcons}
+          onClick={() => {
+            setAddTaskOpen(true);
+            setShowAddIcon(false);
+          }}
+        >
+          <Add fontSize="large" />
+        </IconButton>
+      )}
     </div>
   );
 };

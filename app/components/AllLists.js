@@ -25,6 +25,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    backgroundColor: "#2b2b2b",
   },
   container: {
     paddingBottom: 0,
@@ -35,6 +36,16 @@ const useStyles = makeStyles({
     "&:hover": {
       color: "red",
     },
+  },
+  paperBackground: {
+    backgroundColor: "#2b2b2b",
+  },
+  rootPaper: {
+    // marginTop: "0.5em",
+  },
+  title: {
+    margin: "6px",
+    marginLeft: "0.6em",
   },
 });
 
@@ -61,7 +72,11 @@ const AllLists = (props) => {
 
   return (
     <div>
-      <Paper>
+      <Typography variant="h5" className={classes.title}>
+        My Lists
+      </Typography>
+      <Divider></Divider>
+      <Paper className={classes.rootPaper}>
         <List className={classes.container}>
           {lists
             .sort((a, b) => {
@@ -72,13 +87,14 @@ const AllLists = (props) => {
                 <div key={list.id}>
                   <div className={classes.rowBox}>
                     <ListItem
+                      className={classes.paperBackground}
                       button
                       title={list.title}
                       onClick={() => {
                         history.push(`/lists/${list.id}`);
                       }}
                     >
-                      <Typography variant="h5">{list.title}</Typography>
+                      <Typography variant="h6">{list.title}</Typography>
                     </ListItem>
                     <IconButton
                       className={classes.redIcons}

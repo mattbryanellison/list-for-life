@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#ffffff",
   },
   tlbr: {
-    backgroundColor: "#6600cc",
+    backgroundColor: "#27271e",
   },
   root: {
     flexGrow: 1,
