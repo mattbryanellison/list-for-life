@@ -11,7 +11,7 @@ import {
   Divider,
   ClickAwayListener,
 } from "@material-ui/core";
-import { Edit, Add, Cancel } from "@material-ui/icons";
+import { Edit, Add, Cancel, ArrowBackIos } from "@material-ui/icons";
 import DoneIcon from "@material-ui/icons/Done";
 import { useParams } from "react-router-dom";
 
@@ -126,6 +126,13 @@ const AllTasks = (props) => {
       {/* <Grid container direction="row"> */}
 
       <div className={classes.rowBoxSpaceBetween}>
+        <IconButton
+          onClick={() => {
+            history.go(-1);
+          }}
+        >
+          <ArrowBackIos />
+        </IconButton>
         {/* <Grid item> */}
         {!editTitleOpen && (
           <Typography className={classes.typ} variant="h5">
