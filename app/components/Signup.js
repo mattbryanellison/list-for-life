@@ -17,12 +17,26 @@ const Signup = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorTextName, setErrorTextName] = useState("");
+  const [errorTextEmail, setErrorTextEmail] = useState("");
+  const [errorTextPassword, setErrorTextPassword] = useState("");
 
   const classes = useStyles();
 
   const signupHandler = (event) => {
     event.preventDefault();
-    // console.log("I would submit", { name, email, password });
+    if (name === "") {
+      setErrorTextName("Please fill in your name!");
+      return;
+    }
+    if (email === "") {
+      setErrorTextEmail("Please fill in your email address!");
+      return;
+    }
+    if (password === "") {
+      setErrorTextPassword("Please fill in your password!");
+      return;
+    }
     props.signup({ email, password, name });
   };
 
@@ -36,7 +50,10 @@ const Signup = (props) => {
           label="Name"
           fullWidth
           autoComplete="off"
+          error={errorTextName.length ? true : false}
+          helperText={errorTextName}
           onChange={(event) => {
+            setErrorTextName("");
             setName(event.target.value);
           }}
         />
@@ -44,7 +61,10 @@ const Signup = (props) => {
           id="email"
           label="Email"
           fullWidth
+          error={errorTextEmail.length ? true : false}
+          helperText={errorTextEmail}
           onChange={(event) => {
+            setErrorTextEmail("");
             setEmail(event.target.value);
           }}
           autoComplete="new-password"
@@ -56,7 +76,10 @@ const Signup = (props) => {
           autoComplete="new-password"
           fullWidth
           // autoComplete="current-password"
+          error={errorTextPassword.length ? true : false}
+          helperText={errorTextPassword}
           onChange={(event) => {
+            setErrorTextPassword("");
             setPassword(event.target.value);
           }}
         />

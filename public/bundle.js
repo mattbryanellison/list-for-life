@@ -21121,10 +21121,28 @@ const Signup = props => {
   const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [email, setEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [password, setPassword] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [errorTextName, setErrorTextName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [errorTextEmail, setErrorTextEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [errorTextPassword, setErrorTextPassword] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const classes = useStyles();
 
   const signupHandler = event => {
-    event.preventDefault(); // console.log("I would submit", { name, email, password });
+    event.preventDefault();
+
+    if (name === "") {
+      setErrorTextName("Please fill in your name!");
+      return;
+    }
+
+    if (email === "") {
+      setErrorTextEmail("Please fill in your email address!");
+      return;
+    }
+
+    if (password === "") {
+      setErrorTextPassword("Please fill in your password!");
+      return;
+    }
 
     props.signup({
       email,
@@ -21141,14 +21159,20 @@ const Signup = props => {
     label: "Name",
     fullWidth: true,
     autoComplete: "off",
+    error: errorTextName.length ? true : false,
+    helperText: errorTextName,
     onChange: event => {
+      setErrorTextName("");
       setName(event.target.value);
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
     id: "email",
     label: "Email",
     fullWidth: true,
+    error: errorTextEmail.length ? true : false,
+    helperText: errorTextEmail,
     onChange: event => {
+      setErrorTextEmail("");
       setEmail(event.target.value);
     },
     autoComplete: "new-password"
@@ -21159,7 +21183,10 @@ const Signup = props => {
     autoComplete: "new-password",
     fullWidth: true // autoComplete="current-password"
     ,
+    error: errorTextPassword.length ? true : false,
+    helperText: errorTextPassword,
     onChange: event => {
+      setErrorTextPassword("");
       setPassword(event.target.value);
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
