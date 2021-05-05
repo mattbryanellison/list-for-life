@@ -13,6 +13,11 @@ import {
   TextField,
   Divider,
   ClickAwayListener,
+  Snackbar,
+  Dialog,
+  Button,
+  DialogTitle,
+  DialogActions,
 } from "@material-ui/core";
 import {
   Info,
@@ -22,6 +27,7 @@ import {
   Close,
   Cancel,
 } from "@material-ui/icons";
+import MuiAlert from "@material-ui/lab/Alert";
 
 import InfoDialog from "./InfoDialog";
 import EditDialog from "./EditDialog";
@@ -62,18 +68,24 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     backgroundColor: "#2b2b2b",
   },
+  alertMessage: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 
 const TaskListItem = (props) => {
   const classes = useStyles();
   const { task } = props;
   const { listId } = useParams();
-  // const [editDialogIsOpen, openEditDialog] = useState(false);
-  // const [infoDialogIsOpen, openInfoDialog] = useState(false);
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const [editTitleOpen, setEditTitleOpen] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [errorText, setErrorText] = useState("");
   const [completed, setCompleted] = useState(task.completed);
+  const [alertMessageOpen, setAlertMessageOpen] = useState(false);
   // const [description, setDescription] = useState(task.description);
 
   useEffect(() => {
@@ -132,11 +144,23 @@ const TaskListItem = (props) => {
     props.setShowAddIcon(true);
     setTitle(task.title);
   };
-  // const onEnter = (e) => {
-  //   if (e.key === "Enter") {
-  //     submitUpdateHandler();
+
+  // const handleAlertMessageOnClick = () => {
+  //   setAlertMessageOpen(true);
+  // };
+
+  // const handleAlertMessageOnClickAway = (event, reason) => {
+  //   if (reason === "clickaway") {
+  //     setAlertMessageOpen(false);
+  //     return;
   //   }
   // };
+
+  // const handleAlertConfirmation = () => {};
+
+  const handleDialogOpen = () => {
+    setDialogIsOpen(true);
+  };
 
   return (
     <div className={classes.root}>
@@ -198,10 +222,39 @@ const TaskListItem = (props) => {
               </IconButton>
               <IconButton
                 className={classes.redIcons}
-                onClick={onDeleteHandler}
+                // onClick={onDeleteHandler}
+                // onClick={handleAlertMessageOnClick}
+                onClick={handleDialogOpen}
               >
                 <DeleteForever fontSize="small" />
               </IconButton>
+              <Dialog onClose={() => {}} open={dialogIsOpen}>
+                <DialogTitle id="delete-confirmation">
+                  <Typography align="center">Are you sure?</Typography>
+                </DialogTitle>
+                <DialogActions>
+                  <Button
+                    variant="contained"
+                    fullWidth={false}
+                    onClick={() => {
+                      console.log("I would delete task: ", task.id);
+                      setDialogIsOpen(false);
+                    }}
+                  >
+                    Confirm
+                  </Button>
+                  <Button
+                    variant="contained"
+                    fullWidth={false}
+                    onClick={() => {
+                      console.log("I would cancel");
+                      setDialogIsOpen(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </div>
           )}
 
