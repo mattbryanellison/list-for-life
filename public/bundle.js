@@ -20810,10 +20810,23 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_5__.defau
 const Login = props => {
   const [email, setEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [password, setPassword] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [errorTextEmail, setErrorTextEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [errorTextPassword, setErrorTextPassword] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const classes = useStyles();
 
   const handleSubmit = event => {
     event.preventDefault();
+
+    if (email === "") {
+      setErrorTextEmail("Please fill in your email address!");
+      return;
+    }
+
+    if (password === "") {
+      setErrorTextPassword("Please fill in your password!");
+      return;
+    }
+
     props.loginUser({
       email,
       password
@@ -20832,7 +20845,10 @@ const Login = props => {
     id: "outlined-basic",
     label: "Email",
     fullWidth: true,
+    error: errorTextEmail.length ? true : false,
+    helperText: errorTextEmail,
     onChange: event => {
+      setErrorTextEmail("");
       setEmail(event.target.value);
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
@@ -20841,7 +20857,10 @@ const Login = props => {
     type: "password",
     fullWidth: true,
     autoComplete: "current-password",
+    error: errorTextPassword.length ? true : false,
+    helperText: errorTextPassword,
     onChange: event => {
+      setErrorTextPassword("");
       setPassword(event.target.value);
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, {
@@ -21151,14 +21170,47 @@ const Signup = props => {
     });
   };
 
+  const handleKeyDown = e => {
+    //in order to have autofocus on each textfield, so that if you hit escape it autofocuses, do I need to have a handlekeydown for each textfield line?
+    if (e.key === "Enter") {
+      if (name === "") {
+        setErrorTextName("Please fill in your name!");
+        return;
+      }
+
+      if (email === "") {
+        setErrorTextEmail("Please fill in your email address!");
+        return;
+      }
+
+      if (password === "") {
+        setErrorTextPassword("Please fill in your password!");
+        return;
+      }
+
+      props.signup({
+        email,
+        password,
+        name
+      });
+    } else if (e.keyCode === 27) {
+      //cancel
+      setErrorTextName("");
+      setErrorTextEmail("");
+      setErrorTextPassword("");
+      return;
+    }
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     className: classes.root
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
-    autoFocus: true,
     id: "name",
     label: "Name",
     fullWidth: true,
     autoComplete: "off",
+    autoFocus: true,
+    onKeyDown: handleKeyDown,
     error: errorTextName.length ? true : false,
     helperText: errorTextName,
     onChange: event => {
@@ -21169,6 +21221,8 @@ const Signup = props => {
     id: "email",
     label: "Email",
     fullWidth: true,
+    disabled: !name.length,
+    onKeyDown: handleKeyDown,
     error: errorTextEmail.length ? true : false,
     helperText: errorTextEmail,
     onChange: event => {
@@ -21181,8 +21235,9 @@ const Signup = props => {
     label: "Password",
     type: "password",
     autoComplete: "new-password",
-    fullWidth: true // autoComplete="current-password"
-    ,
+    fullWidth: true,
+    onKeyDown: handleKeyDown,
+    disabled: !name.length || !email.length,
     error: errorTextPassword.length ? true : false,
     helperText: errorTextPassword,
     onChange: event => {

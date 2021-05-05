@@ -29,11 +29,21 @@ const useStyles = makeStyles(() => ({
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorTextEmail, setErrorTextEmail] = useState("");
+  const [errorTextPassword, setErrorTextPassword] = useState("");
 
   const classes = useStyles();
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (email === "") {
+      setErrorTextEmail("Please fill in your email address!");
+      return;
+    }
+    if (password === "") {
+      setErrorTextPassword("Please fill in your password!");
+      return;
+    }
     props.loginUser({ email, password });
   };
 
@@ -48,7 +58,10 @@ const Login = (props) => {
           id="outlined-basic"
           label="Email"
           fullWidth
+          error={errorTextEmail.length ? true : false}
+          helperText={errorTextEmail}
           onChange={(event) => {
+            setErrorTextEmail("");
             setEmail(event.target.value);
           }}
         />
@@ -58,7 +71,10 @@ const Login = (props) => {
           type="password"
           fullWidth
           autoComplete="current-password"
+          error={errorTextPassword.length ? true : false}
+          helperText={errorTextPassword}
           onChange={(event) => {
+            setErrorTextPassword("");
             setPassword(event.target.value);
           }}
         />
