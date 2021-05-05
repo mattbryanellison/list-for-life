@@ -47,9 +47,23 @@ const Login = (props) => {
     props.loginUser({ email, password });
   };
 
-  // const signupViewOpenHandler = (event) => {
+  const handleOnKeyDown = (e) => {
+    if (e.key === "Enter") {
+      if (email === "") {
+        setErrorTextEmail("Please fill in your email address!");
+        return;
+      }
+      if (password === "") {
+        setErrorTextPassword("Please fill in your password!");
+        return;
+      }
+      props.loginUser({ email, password });
+    } else if (e.keyCode === 27) {
+      setErrorTextEmail("");
+      setErrorTextPassword("");
+    }
+  };
 
-  // };
   return (
     <Card className={classes.root}>
       <form noValidate autoComplete="off">
@@ -58,6 +72,8 @@ const Login = (props) => {
           id="outlined-basic"
           label="Email"
           fullWidth
+          autoFocus
+          onKeyDown={handleOnKeyDown}
           error={errorTextEmail.length ? true : false}
           helperText={errorTextEmail}
           onChange={(event) => {
@@ -71,6 +87,8 @@ const Login = (props) => {
           type="password"
           fullWidth
           autoComplete="current-password"
+          disabled={!email.length}
+          onKeyDown={handleOnKeyDown}
           error={errorTextPassword.length ? true : false}
           helperText={errorTextPassword}
           onChange={(event) => {

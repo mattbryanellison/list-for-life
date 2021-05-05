@@ -20831,9 +20831,29 @@ const Login = props => {
       email,
       password
     });
-  }; // const signupViewOpenHandler = (event) => {
-  // };
+  };
 
+  const handleOnKeyDown = e => {
+    if (e.key === "Enter") {
+      if (email === "") {
+        setErrorTextEmail("Please fill in your email address!");
+        return;
+      }
+
+      if (password === "") {
+        setErrorTextPassword("Please fill in your password!");
+        return;
+      }
+
+      props.loginUser({
+        email,
+        password
+      });
+    } else if (e.keyCode === 27) {
+      setErrorTextEmail("");
+      setErrorTextPassword("");
+    }
+  };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
     className: classes.root
@@ -20845,6 +20865,8 @@ const Login = props => {
     id: "outlined-basic",
     label: "Email",
     fullWidth: true,
+    autoFocus: true,
+    onKeyDown: handleOnKeyDown,
     error: errorTextEmail.length ? true : false,
     helperText: errorTextEmail,
     onChange: event => {
@@ -20857,6 +20879,8 @@ const Login = props => {
     type: "password",
     fullWidth: true,
     autoComplete: "current-password",
+    disabled: !email.length,
+    onKeyDown: handleOnKeyDown,
     error: errorTextPassword.length ? true : false,
     helperText: errorTextPassword,
     onChange: event => {
