@@ -31,6 +31,7 @@ const Signup = (props) => {
       {/* <form noValidate autoComplete="off"> */}
       <Card>
         <TextField
+          autoFocus
           id="name"
           label="Name"
           fullWidth
@@ -66,7 +67,7 @@ const Signup = (props) => {
         color="primary"
         onClick={signupHandler}
       >
-        Signup
+        Sign Up
       </Button>
       {/* </form> */}
     </Card>

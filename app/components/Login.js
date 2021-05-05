@@ -78,7 +78,7 @@ const Login = (props) => {
           history.push("/signup");
         }}
       >
-        Signup
+        Sign Up
       </Button>
       {/* <Signup /> */}
     </Card>

@@ -24,8 +24,8 @@ const NavRoute = ({ exact, path, component: Component }) => (
 const Routes = (props) => {
   return (
     <Switch>
-      <Route exact path="/signup" component={Signup} />
-      <Route exact path="/login" component={Login} />
+      <NavRoute exact path="/signup" component={Signup} />
+      <NavRoute exact path="/login" component={Login} />
       {props.isLoggedIn && (
         <Switch>
           <NavRoute exact path="/home" component={Home} />
@@ -33,7 +33,7 @@ const Routes = (props) => {
         </Switch>
       )}
 
-      <Route component={Login} />
+      <NavRoute component={Login} />
     </Switch>
   );
 };

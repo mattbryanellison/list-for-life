@@ -20855,7 +20855,7 @@ const Login = props => {
     onClick: () => {
       _history__WEBPACK_IMPORTED_MODULE_2__.default.push("/signup");
     }
-  }, "Signup"));
+  }, "Sign Up"));
 };
 
 const mapDispatchToProps = dispatch => {
@@ -20933,6 +20933,9 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.defau
 }));
 
 const Navbar = props => {
+  const {
+    isLoggedIn
+  } = props;
   const [anchorEl, setAnchorEl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const isMenuOpen = Boolean(anchorEl);
   const classes = useStyles();
@@ -20986,7 +20989,7 @@ const Navbar = props => {
     className: classes.logo
   }, "ListFor.Life")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: classes.spacer
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_9__.default, {
+  }), isLoggedIn && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_9__.default, {
     className: classes.icons,
     edge: "end",
     "aria-label": "account of current user",
@@ -20995,10 +20998,13 @@ const Navbar = props => {
     onClick: handleProfileMenuOpen,
     color: "inherit"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons_AccountCircle__WEBPACK_IMPORTED_MODULE_11__.default, null)))), renderMenu);
-}; // const mapState = (state) => {
-//   return {};
-// };
+};
 
+const mapState = state => {
+  return {
+    isLoggedIn: !!state.user.id
+  };
+};
 
 const mapDispatch = dispatch => {
   return {
@@ -21008,7 +21014,7 @@ const mapDispatch = dispatch => {
   };
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(null, mapDispatch)(Navbar));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapState, mapDispatch)(Navbar));
 
 /***/ }),
 
@@ -21051,11 +21057,11 @@ const NavRoute = ({
 });
 
 const Routes = props => {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavRoute, {
     exact: true,
     path: "/signup",
     component: _Signup__WEBPACK_IMPORTED_MODULE_4__.default
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavRoute, {
     exact: true,
     path: "/login",
     component: _Login__WEBPACK_IMPORTED_MODULE_2__.default
@@ -21066,7 +21072,7 @@ const Routes = props => {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavRoute, {
     path: "/lists/:listId",
     component: _AllTasks__WEBPACK_IMPORTED_MODULE_5__.default
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavRoute, {
     component: _Login__WEBPACK_IMPORTED_MODULE_2__.default
   }));
 };
@@ -21130,6 +21136,7 @@ const Signup = props => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     className: classes.root
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
+    autoFocus: true,
     id: "name",
     label: "Name",
     fullWidth: true,
@@ -21160,7 +21167,7 @@ const Signup = props => {
     variant: "contained",
     color: "primary",
     onClick: signupHandler
-  }, "Signup"));
+  }, "Sign Up"));
 }; // const mapState = (state) => {
 //   return {};
 // };

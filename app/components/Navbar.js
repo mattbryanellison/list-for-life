@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = (props) => {
+  const { isLoggedIn } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const classes = useStyles();
@@ -79,17 +80,6 @@ const Navbar = (props) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.tlbr}>
-          {/* <Button
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-            onClick={() => {
-              history.push("/home");
-            }}
-          >
-            Listfor.life
-          </Button> */}
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -105,20 +95,21 @@ const Navbar = (props) => {
             </Typography>
           </IconButton>
           <div className={classes.spacer}></div>
-          {/* <Button color="inherit" onClick={logoutButtonHandler}>
-            Logout
-          </Button> */}
-          <IconButton
-            className={classes.icons}
-            edge="end"
-            aria-label="account of current user"
-            aria-controls={menuId}
-            aria-haspopup="true"
-            onClick={handleProfileMenuOpen}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
+
+          {/* ACCOUNT CIRCLE */}
+          {isLoggedIn && (
+            <IconButton
+              className={classes.icons}
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
       {renderMenu}
@@ -126,9 +117,11 @@ const Navbar = (props) => {
   );
 };
 
-// const mapState = (state) => {
-//   return {};
-// };
+const mapState = (state) => {
+  return {
+    isLoggedIn: !!state.user.id,
+  };
+};
 
 const mapDispatch = (dispatch) => {
   return {
@@ -138,4 +131,4 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatch)(Navbar);
+export default connect(mapState, mapDispatch)(Navbar);
