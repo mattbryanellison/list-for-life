@@ -7,8 +7,10 @@ import {
   ListItem,
   Typography,
   IconButton,
+  Button,
   Dialog,
   DialogActions,
+  DialogTitle,
   DialogContent,
   TextField,
   makeStyles,
@@ -55,6 +57,7 @@ const AllLists = (props) => {
   // let { listId } = useParams();
   // console.log(listId);
   const [title, setTitle] = useState("");
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
   useEffect(() => {
     // console.log("USE EFFECT FIRING");
@@ -64,11 +67,6 @@ const AllLists = (props) => {
       console.log(err);
     }
   }, []);
-
-  // const deleteListHandler = () => {
-  //   props.deleteList(list.id);
-  //   history.push("/home");
-  // };
 
   return (
     <div>
@@ -99,11 +97,37 @@ const AllLists = (props) => {
                     <IconButton
                       className={classes.redIcons}
                       onClick={() => {
-                        props.deleteList(list.id);
+                        setDialogIsOpen(true);
                       }}
                     >
                       <DeleteForever />
                     </IconButton>
+                    <Dialog onClose={() => {}} open={dialogIsOpen}>
+                      <DialogTitle id="delete-confirmation">
+                        <Typography align="center">Are you sure?</Typography>
+                      </DialogTitle>
+                      <DialogActions>
+                        <Button
+                          variant="contained"
+                          fullWidth={false}
+                          onClick={() => {
+                            props.deleteList(list.id);
+                            setDialogIsOpen(false);
+                          }}
+                        >
+                          Confirm
+                        </Button>
+                        <Button
+                          variant="contained"
+                          fullWidth={false}
+                          onClick={() => {
+                            setDialogIsOpen(false);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
                   </div>
                   <div>
                     <Divider />
