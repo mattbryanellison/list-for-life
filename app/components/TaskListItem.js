@@ -68,12 +68,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     backgroundColor: "#2b2b2b",
   },
-  alertMessage: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
 }));
 
 const TaskListItem = (props) => {
@@ -85,8 +79,6 @@ const TaskListItem = (props) => {
   const [title, setTitle] = useState(task.title);
   const [errorText, setErrorText] = useState("");
   const [completed, setCompleted] = useState(task.completed);
-  const [alertMessageOpen, setAlertMessageOpen] = useState(false);
-  // const [description, setDescription] = useState(task.description);
 
   useEffect(() => {
     setCompleted(task.completed);
@@ -113,6 +105,7 @@ const TaskListItem = (props) => {
   };
 
   const onDeleteHandler = () => {
+    setDialogIsOpen(false);
     props.deleteTask(listId, task.id);
     setEditTitleOpen(false);
     props.setShowAddIcon(true);
@@ -144,19 +137,6 @@ const TaskListItem = (props) => {
     props.setShowAddIcon(true);
     setTitle(task.title);
   };
-
-  // const handleAlertMessageOnClick = () => {
-  //   setAlertMessageOpen(true);
-  // };
-
-  // const handleAlertMessageOnClickAway = (event, reason) => {
-  //   if (reason === "clickaway") {
-  //     setAlertMessageOpen(false);
-  //     return;
-  //   }
-  // };
-
-  // const handleAlertConfirmation = () => {};
 
   const handleDialogOpen = () => {
     setDialogIsOpen(true);
@@ -201,9 +181,8 @@ const TaskListItem = (props) => {
               </ClickAwayListener>
             )}
           </ListItem>
-          {/* </Grid> */}
         </div>
-        {/* <Grid container direction="row"> */}
+
         <div className={classes.rowBoxItem}>
           {!editTitleOpen && (
             <div className={classes.rowBoxItem}>
@@ -222,12 +201,13 @@ const TaskListItem = (props) => {
               </IconButton>
               <IconButton
                 className={classes.redIcons}
-                // onClick={onDeleteHandler}
-                // onClick={handleAlertMessageOnClick}
                 onClick={handleDialogOpen}
               >
                 <DeleteForever fontSize="small" />
               </IconButton>
+
+              {/* what would be the reason to handle the delete in the onClose prop of the outer dialog component, rather than the onClick of the button? */}
+
               <Dialog onClose={() => {}} open={dialogIsOpen}>
                 <DialogTitle id="delete-confirmation">
                   <Typography align="center">Are you sure?</Typography>
@@ -236,10 +216,7 @@ const TaskListItem = (props) => {
                   <Button
                     variant="contained"
                     fullWidth={false}
-                    onClick={() => {
-                      console.log("I would delete task: ", task.id);
-                      setDialogIsOpen(false);
-                    }}
+                    onClick={onDeleteHandler}
                   >
                     Confirm
                   </Button>
@@ -247,7 +224,6 @@ const TaskListItem = (props) => {
                     variant="contained"
                     fullWidth={false}
                     onClick={() => {
-                      console.log("I would cancel");
                       setDialogIsOpen(false);
                     }}
                   >

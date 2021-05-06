@@ -21454,12 +21454,6 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_5__.defau
     display: "flex",
     justifyContent: "space-between",
     backgroundColor: "#2b2b2b"
-  },
-  alertMessage: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2)
-    }
   }
 }));
 
@@ -21476,8 +21470,6 @@ const TaskListItem = props => {
   const [title, setTitle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(task.title);
   const [errorText, setErrorText] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [completed, setCompleted] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(task.completed);
-  const [alertMessageOpen, setAlertMessageOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false); // const [description, setDescription] = useState(task.description);
-
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     setCompleted(task.completed);
   }, [task]);
@@ -21504,6 +21496,7 @@ const TaskListItem = props => {
   };
 
   const onDeleteHandler = () => {
+    setDialogIsOpen(false);
     props.deleteTask(listId, task.id);
     setEditTitleOpen(false);
     props.setShowAddIcon(true);
@@ -21535,17 +21528,7 @@ const TaskListItem = props => {
     setEditTitleOpen(false);
     props.setShowAddIcon(true);
     setTitle(task.title);
-  }; // const handleAlertMessageOnClick = () => {
-  //   setAlertMessageOpen(true);
-  // };
-  // const handleAlertMessageOnClickAway = (event, reason) => {
-  //   if (reason === "clickaway") {
-  //     setAlertMessageOpen(false);
-  //     return;
-  //   }
-  // };
-  // const handleAlertConfirmation = () => {};
-
+  };
 
   const handleDialogOpen = () => {
     setDialogIsOpen(true);
@@ -21600,9 +21583,7 @@ const TaskListItem = props => {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_15__.default, {
     fontSize: "small"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, {
-    className: classes.redIcons // onClick={onDeleteHandler}
-    // onClick={handleAlertMessageOnClick}
-    ,
+    className: classes.redIcons,
     onClick: handleDialogOpen
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_16__.default, {
     fontSize: "small"
@@ -21616,15 +21597,11 @@ const TaskListItem = props => {
   }, "Are you sure?")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_19__.default, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_20__.default, {
     variant: "contained",
     fullWidth: false,
-    onClick: () => {
-      console.log("I would delete task: ", task.id);
-      setDialogIsOpen(false);
-    }
+    onClick: onDeleteHandler
   }, "Confirm"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_20__.default, {
     variant: "contained",
     fullWidth: false,
     onClick: () => {
-      console.log("I would cancel");
       setDialogIsOpen(false);
     }
   }, "Cancel")))), editTitleOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
