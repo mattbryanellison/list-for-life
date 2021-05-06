@@ -4,6 +4,8 @@ import history from "../history";
 const SIGNUP_USER = `SIGNUP_USER`;
 const LOGIN_USER = `LOGIN_USER`;
 const LOGOUT_USER = `LOGOUT_USER`;
+const LOGIN_ERROR = "LOGIN_ERROR";
+const CLEAR_LOGIN_ERROR = "CLEAR_LOGIN_ERROR";
 
 export const signupUser = (user) => {
   return {
@@ -26,6 +28,20 @@ export const logoutUser = (user) => {
   };
 };
 
+export const loginError = (userError) => {
+  return {
+    type: LOGIN_ERROR,
+    userError,
+  };
+};
+
+export const clearLoginError = () => {
+  return {
+    type: CLEAR_LOGIN_ERROR,
+    userError: {},
+  };
+};
+
 export const postUser = (user) => {
   return async (dispatch) => {
     try {
@@ -45,7 +61,7 @@ export const fetchUser = (user) => {
       dispatch(loginUser(data));
       history.push("/home");
     } catch (err) {
-      throw new Error("Login failed!");
+      dispatch(loginError({ id: null, error: "Error logging in" }));
     }
   };
 };
@@ -71,6 +87,10 @@ export default (state = initialState, action) => {
       return action.user;
     case LOGOUT_USER:
       return action.user;
+    case LOGIN_ERROR:
+      return action.userError;
+    case CLEAR_LOGIN_ERROR:
+      return action.userError;
     default:
       return state;
   }

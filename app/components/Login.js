@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Card, CardContent, TextField, Button } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  TextField,
+  Button,
+  Snackbar,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import MuiAlert from "@material-ui/lab/Alert";
 
 import history from "../history";
-import { postUser, fetchUser, endSessionUser } from "../redux/user";
+import {
+  postUser,
+  fetchUser,
+  endSessionUser,
+  clearLoginError,
+} from "../redux/user";
 
 import Signup from "./Signup";
 
-//TODO: Logout functionality?
-
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "50%",
     maxWidth: "50%",
@@ -24,27 +34,52 @@ const useStyles = makeStyles(() => ({
   emailTextfield: {
     marginBottom: "5px",
   },
+  alert: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 
 const Login = (props) => {
+  const { error } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorTextEmail, setErrorTextEmail] = useState("");
   const [errorTextPassword, setErrorTextPassword] = useState("");
+  const [alertOpen, setAlertOpen] = useState(error);
 
   const classes = useStyles();
 
+  useEffect(() => {
+    setAlertOpen(error);
+  }, [error]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    props.clearError();
+    setAlertOpen(false);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (email === "") {
-      setErrorTextEmail("Please fill in your email address!");
-      return;
+    try {
+      if (email === "") {
+        setErrorTextEmail("Please fill in your email address!");
+        return;
+      }
+      if (password === "") {
+        setErrorTextPassword("Please fill in your password!");
+        return;
+      }
+      props.loginUser({ email, password });
+    } catch (err) {
+      console.log("I AM THE ERROR", err);
+      setAlertOpen(true);
     }
-    if (password === "") {
-      setErrorTextPassword("Please fill in your password!");
-      return;
-    }
-    props.loginUser({ email, password });
   };
 
   const handleOnKeyDown = (e) => {
@@ -65,59 +100,77 @@ const Login = (props) => {
   };
 
   return (
-    <Card className={classes.root}>
-      <form noValidate autoComplete="off">
-        <TextField
-          className={classes.emailTextfield}
-          id="outlined-basic"
-          label="Email"
-          fullWidth
-          autoFocus
-          onKeyDown={handleOnKeyDown}
-          error={errorTextEmail.length ? true : false}
-          helperText={errorTextEmail}
-          onChange={(event) => {
-            setErrorTextEmail("");
-            setEmail(event.target.value);
-          }}
-        />
-        <TextField
-          id="standard-password-input"
-          label="Password"
-          type="password"
-          fullWidth
-          autoComplete="current-password"
-          disabled={!email.length}
-          onKeyDown={handleOnKeyDown}
-          error={errorTextPassword.length ? true : false}
-          helperText={errorTextPassword}
-          onChange={(event) => {
-            setErrorTextPassword("");
-            setPassword(event.target.value);
-          }}
-        />
+    <div>
+      <Card className={classes.root}>
+        <form noValidate autoComplete="off">
+          <TextField
+            className={classes.emailTextfield}
+            id="outlined-basic"
+            label="Email"
+            fullWidth
+            autoFocus
+            onKeyDown={handleOnKeyDown}
+            error={errorTextEmail.length ? true : false}
+            helperText={errorTextEmail}
+            onChange={(event) => {
+              setErrorTextEmail("");
+              setEmail(event.target.value);
+            }}
+          />
+          <TextField
+            id="standard-password-input"
+            label="Password"
+            type="password"
+            fullWidth
+            autoComplete="current-password"
+            disabled={!email.length}
+            onKeyDown={handleOnKeyDown}
+            error={errorTextPassword.length ? true : false}
+            helperText={errorTextPassword}
+            onChange={(event) => {
+              setErrorTextPassword("");
+              setPassword(event.target.value);
+            }}
+          />
+          <Button
+            className={classes.button}
+            variant="contained"
+            disabled={!email.length || !password.length}
+            onClick={handleSubmit}
+          >
+            Log In
+          </Button>
+        </form>
         <Button
           className={classes.button}
           variant="contained"
-          disabled={!email.length || !password.length}
-          onClick={handleSubmit}
+          color="primary"
+          onClick={() => {
+            history.push("/signup");
+          }}
         >
-          Log In
+          Sign Up
         </Button>
-      </form>
-      <Button
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          history.push("/signup");
-        }}
-      >
-        Sign Up
-      </Button>
-      {/* <Signup /> */}
-    </Card>
+        {/* <Signup /> */}
+      </Card>
+      <Snackbar open={alertOpen} autoHideDuration={6000} onClose={handleClose}>
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleClose}
+          severity="error"
+        >
+          Login failed!
+        </MuiAlert>
+      </Snackbar>
+    </div>
   );
+};
+
+const mapState = (state) => {
+  return {
+    error: !!state.user.error,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -126,7 +179,10 @@ const mapDispatchToProps = (dispatch) => {
       // console.log("I LOGGED IN");
       dispatch(fetchUser(user));
     },
+    clearError: () => {
+      dispatch(clearLoginError());
+    },
   };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapState, mapDispatchToProps)(Login);
