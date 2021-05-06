@@ -116,6 +116,7 @@ const Signup = (props) => {
         className={classes.button}
         variant="contained"
         color="primary"
+        disabled={!name.length || !email.length || !password.length}
         onClick={signupHandler}
       >
         Sign Up

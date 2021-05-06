@@ -99,6 +99,7 @@ const Login = (props) => {
         <Button
           className={classes.button}
           variant="contained"
+          disabled={!email.length || !password.length}
           onClick={handleSubmit}
         >
           Log In

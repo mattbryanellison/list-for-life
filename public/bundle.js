@@ -20996,6 +20996,7 @@ const Login = props => {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, {
     className: classes.button,
     variant: "contained",
+    disabled: !email.length || !password.length,
     onClick: handleSubmit
   }, "Log In")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, {
     className: classes.button,
@@ -21378,6 +21379,7 @@ const Signup = props => {
     className: classes.button,
     variant: "contained",
     color: "primary",
+    disabled: !name.length || !email.length || !password.length,
     onClick: signupHandler
   }, "Sign Up"));
 }; // const mapState = (state) => {
