@@ -1,4 +1,5 @@
 import axios from "axios";
+import history from "../history";
 
 const SET_LISTS = "SET_LISTS";
 const ADD_LIST = "ADD_LIST";
@@ -38,6 +39,7 @@ export const postList = (list) => {
     try {
       const { data } = await axios.post("/api/lists", list);
       dispatch(addList(data));
+      history.push(`/lists/${data.id}`);
     } catch (err) {
       console.log(err);
       throw new Error("Unable to create list!");

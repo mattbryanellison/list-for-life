@@ -9,6 +9,7 @@ import {
 import { Add, Done, Cancel } from "@material-ui/icons";
 
 import { postList } from "../redux/lists";
+import history from "../history";
 
 const useStyles = makeStyles({
   greenIcons: {
@@ -48,6 +49,9 @@ const AddList = (props) => {
       title,
     };
     props.addNewList(list);
+    console.log("I AM LIST: ", list);
+    // redirect to newly created list
+    // history.push(`/lists/${list.id}`);
     setTextfieldIsOpen(false);
     setTitle("");
   };
