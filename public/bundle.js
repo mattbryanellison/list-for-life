@@ -22321,7 +22321,16 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__.defau
   button: {
     margin: 5
   }
-}));
+})); //regex to validate email
+// const validateEmail = (email) => {
+//   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+//   return re.test(String(email).toLowerCase());
+// };
+
+const validateEmail = email => {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email.toLowerCase());
+};
 
 const Signup = props => {
   const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
@@ -22331,6 +22340,7 @@ const Signup = props => {
   const [errorTextEmail, setErrorTextEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [errorTextPassword, setErrorTextPassword] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const classes = useStyles();
+  const validEmail = validateEmail(email);
 
   const signupHandler = event => {
     event.preventDefault();
@@ -22338,10 +22348,15 @@ const Signup = props => {
     if (name === "") {
       setErrorTextName("Please fill in your name!");
       return;
-    }
+    } //can I use validEmail instead of using my hook?
+    // if (email === "") {
+    //   setErrorTextEmail("Please fill in your email address!");
+    //   return;
+    // }
 
-    if (email === "") {
-      setErrorTextEmail("Please fill in your email address!");
+
+    if (!validEmail) {
+      setErrorTextEmail("Please enter a valid email address!");
       return;
     }
 
@@ -22363,10 +22378,14 @@ const Signup = props => {
       if (name === "") {
         setErrorTextName("Please fill in your name!");
         return;
-      }
+      } // if (email === "") {
+      //   setErrorTextEmail("Please fill in your email address!");
+      //   return;
+      // }
 
-      if (email === "") {
-        setErrorTextEmail("Please fill in your email address!");
+
+      if (!validEmail) {
+        setErrorTextName("Please enter a valid email address!");
         return;
       }
 

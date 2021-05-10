@@ -13,9 +13,21 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+//regex to validate email
+// const validateEmail = (email) => {
+//   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+//   return re.test(String(email).toLowerCase());
+// };
+
+const validateEmail = (email) => {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email.toLowerCase());
+};
+
 const Signup = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+
   const [password, setPassword] = useState("");
   const [errorTextName, setErrorTextName] = useState("");
   const [errorTextEmail, setErrorTextEmail] = useState("");
@@ -23,16 +35,26 @@ const Signup = (props) => {
 
   const classes = useStyles();
 
+  const validEmail = validateEmail(email);
+
   const signupHandler = (event) => {
     event.preventDefault();
     if (name === "") {
       setErrorTextName("Please fill in your name!");
       return;
     }
-    if (email === "") {
-      setErrorTextEmail("Please fill in your email address!");
+
+    //can I use validEmail instead of using my hook?
+    // if (email === "") {
+    //   setErrorTextEmail("Please fill in your email address!");
+    //   return;
+    // }
+
+    if (!validEmail) {
+      setErrorTextEmail("Please enter a valid email address!");
       return;
     }
+
     if (password === "") {
       setErrorTextPassword("Please fill in your password!");
       return;
@@ -47,14 +69,21 @@ const Signup = (props) => {
         setErrorTextName("Please fill in your name!");
         return;
       }
-      if (email === "") {
-        setErrorTextEmail("Please fill in your email address!");
+      // if (email === "") {
+      //   setErrorTextEmail("Please fill in your email address!");
+      //   return;
+      // }
+
+      if (!validEmail) {
+        setErrorTextName("Please enter a valid email address!");
         return;
       }
+
       if (password === "") {
         setErrorTextPassword("Please fill in your password!");
         return;
       }
+
       props.signup({ email, password, name });
     } else if (e.keyCode === 27) {
       //cancel
