@@ -18,6 +18,10 @@ const User = db.define("user", {
       notEmpty: true,
     },
   },
+  googleId: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
   password: {
     type: Sequelize.STRING,
     // Making `.password` act like a func hides it when serializing to JSON.

@@ -58,6 +58,7 @@ const AllLists = (props) => {
   // console.log(listId);
   const [title, setTitle] = useState("");
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
+  const [listIdToDelete, setListIdToDelete] = useState(0);
 
   useEffect(() => {
     // console.log("USE EFFECT FIRING");
@@ -98,6 +99,7 @@ const AllLists = (props) => {
                       className={classes.redIcons}
                       onClick={() => {
                         setDialogIsOpen(true);
+                        setListIdToDelete(list.id);
                       }}
                     >
                       <DeleteForever />
@@ -110,9 +112,11 @@ const AllLists = (props) => {
                         <Button
                           variant="contained"
                           fullWidth={false}
+                          value={list.id}
                           onClick={() => {
-                            props.deleteList(list.id);
+                            props.deleteList(listIdToDelete);
                             setDialogIsOpen(false);
+                            setListIdToDelete(0);
                           }}
                         >
                           Confirm
@@ -122,6 +126,7 @@ const AllLists = (props) => {
                           fullWidth={false}
                           onClick={() => {
                             setDialogIsOpen(false);
+                            setListIdToDelete(0);
                           }}
                         >
                           Cancel

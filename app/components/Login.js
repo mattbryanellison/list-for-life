@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import MuiAlert from "@material-ui/lab/Alert";
+import GoogleButton from "react-google-button";
 
 import history from "../history";
 import {
@@ -151,7 +152,11 @@ const Login = (props) => {
         >
           Sign Up
         </Button>
-        {/* <Signup /> */}
+        <GoogleButton
+          onClick={() => {
+            window.location.href = "http://localhost:8080/auth/google";
+          }}
+        />
       </Card>
       <Snackbar open={alertOpen} autoHideDuration={6000} onClose={handleClose}>
         <MuiAlert

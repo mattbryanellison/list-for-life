@@ -6,6 +6,7 @@ const LOGIN_USER = `LOGIN_USER`;
 const LOGOUT_USER = `LOGOUT_USER`;
 const LOGIN_ERROR = "LOGIN_ERROR";
 const CLEAR_LOGIN_ERROR = "CLEAR_LOGIN_ERROR";
+const GET_ME = `GET_ME`;
 
 export const signupUser = (user) => {
   return {
@@ -39,6 +40,13 @@ export const clearLoginError = () => {
   return {
     type: CLEAR_LOGIN_ERROR,
     userError: {},
+  };
+};
+
+export const getMe = (user) => {
+  return {
+    type: GET_ME,
+    user,
   };
 };
 
@@ -77,6 +85,17 @@ export const endSessionUser = () => {
   };
 };
 
+export const getMeThunk = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("/auth/me");
+      dispatch(getMe(data));
+    } catch (err) {
+      dispatch(getMe({ id: false }));
+    }
+  };
+};
+
 const initialState = {};
 
 export default (state = initialState, action) => {
@@ -91,6 +110,8 @@ export default (state = initialState, action) => {
       return action.userError;
     case CLEAR_LOGIN_ERROR:
       return action.userError;
+    case GET_ME:
+      return action.user;
     default:
       return state;
   }
