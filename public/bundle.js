@@ -22329,7 +22329,7 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__.defau
 
 const validateEmail = email => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email.toLowerCase());
+  return re.test(String(email).toLowerCase());
 };
 
 const Signup = props => {
