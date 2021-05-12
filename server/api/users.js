@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../db/user");
+const asyncHandler = require("express-async-handler");
 
 router.post("/login", async (req, res, next) => {
   try {
@@ -41,6 +42,16 @@ router.post("/logout", (req, res) => {
 
 router.get("/me", (req, res) => {
   res.json(req.user);
+});
+
+router.put("/:id", async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    await user.update(req.body);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
