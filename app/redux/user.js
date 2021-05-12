@@ -3,6 +3,7 @@ import history from "../history";
 
 const SIGNUP_USER = `SIGNUP_USER`;
 const LOGIN_USER = `LOGIN_USER`;
+const UPDATE_USER = "UPDATE_USER";
 const LOGOUT_USER = `LOGOUT_USER`;
 const LOGIN_ERROR = "LOGIN_ERROR";
 const CLEAR_LOGIN_ERROR = "CLEAR_LOGIN_ERROR";
@@ -22,6 +23,12 @@ export const loginUser = (user) => {
   };
 };
 
+export const updateUser = (user) => {
+  return {
+    type: UPDATE_USER,
+    user,
+  };
+};
 export const logoutUser = (user) => {
   return {
     type: LOGOUT_USER,
@@ -74,6 +81,19 @@ export const fetchUser = (user) => {
   };
 };
 
+//edit user info
+export const editUser = (id, user) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/api/users/${id}`, user);
+      dispatch(updateUser(data));
+    } catch (err) {
+      console.log(err);
+      throw new Error("User not found!");
+    }
+  };
+};
+
 export const endSessionUser = () => {
   return async (dispatch) => {
     try {
@@ -103,6 +123,8 @@ export default (state = initialState, action) => {
     case SIGNUP_USER:
       return action.user;
     case LOGIN_USER:
+      return action.user;
+    case UPDATE_USER:
       return action.user;
     case LOGOUT_USER:
       return action.user;
