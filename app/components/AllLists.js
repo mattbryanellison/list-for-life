@@ -60,6 +60,35 @@ const AllLists = (props) => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const [listIdToDelete, setListIdToDelete] = useState(0);
 
+  // useEffect(() => {
+  //   console.log("DIALOG IS OPEN IS: ", dialogIsOpen);
+  // }, [dialogIsOpen]);
+
+  const blurActive = () => {
+    setTimeout(() => {
+      document.activeElement.blur();
+    }, 0);
+  };
+
+  const handleConfirmDelete = () => {
+    setDialogIsOpen(false);
+    props.deleteList(listIdToDelete);
+    setListIdToDelete(0);
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.key === "Enter") {
+      props.deleteList(listIdToDelete);
+      setDialogIsOpen(false);
+      setListIdToDelete(0);
+    }
+    if (e.keyCode === 27) {
+      setDialogIsOpen(false);
+      setListIdToDelete(0);
+      blurActive();
+    }
+  };
+
   useEffect(() => {
     // console.log("USE EFFECT FIRING");
     try {
@@ -104,7 +133,16 @@ const AllLists = (props) => {
                     >
                       <DeleteForever />
                     </IconButton>
-                    <Dialog onClose={() => {}} open={dialogIsOpen}>
+                    <Dialog
+                      open={dialogIsOpen}
+                      onKeyUp={(e) => handleKeyUp(e)}
+                      // onKeyPress={() => {
+                      //   console.log("I HIT ENTER");
+                      // }}
+                      // onKeyDown={(e) => {
+                      //   console.log("I HIT ENTER", e.key);
+                      // }}
+                    >
                       <DialogTitle id="delete-confirmation">
                         <Typography align="center">Are you sure?</Typography>
                       </DialogTitle>
@@ -113,11 +151,12 @@ const AllLists = (props) => {
                           variant="contained"
                           fullWidth={false}
                           value={list.id}
-                          onClick={() => {
-                            props.deleteList(listIdToDelete);
-                            setDialogIsOpen(false);
-                            setListIdToDelete(0);
-                          }}
+                          onClick={handleConfirmDelete}
+                          // onClick={() => {
+                          //   props.deleteList(listIdToDelete);
+                          //   setDialogIsOpen(false);
+                          //   setListIdToDelete(0);
+                          // }}
                         >
                           Confirm
                         </Button>

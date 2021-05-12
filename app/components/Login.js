@@ -23,10 +23,14 @@ import Signup from "./Signup";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "50%",
-    maxWidth: "50%",
+    display: "flex",
+    justifyContent: "center",
+  },
+  card: {
+    width: "290px",
+    maxWidth: "290px",
     margin: 10,
-    padding: "5px",
+    padding: "20px",
   },
   button: {
     // backgroundColor: "#4d0099",
@@ -101,8 +105,8 @@ const Login = (props) => {
   };
 
   return (
-    <div>
-      <Card className={classes.root}>
+    <div className={classes.root}>
+      <Card className={classes.card}>
         <form noValidate autoComplete="off">
           <TextField
             className={classes.emailTextfield}

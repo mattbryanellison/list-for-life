@@ -111,6 +111,28 @@ const TaskListItem = (props) => {
     props.setShowAddIcon(true);
   };
 
+  const blurActive = () => {
+    setTimeout(() => {
+      document.activeElement.blur();
+    }, 0);
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.key === "Enter") {
+      onDeleteHandler();
+      // setDialogIsOpen(false);
+      // props.deleteTask(listId, task.id);
+      // setEditTitleOpen(false);
+      // props.setShowAddIcon(true);
+    }
+    if (e.keyCode === 27) {
+      setDialogIsOpen(false);
+      setEditTitleOpen(false);
+      props.setShowAddIcon(true);
+      blurActive();
+    }
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (title === "") {
@@ -208,7 +230,11 @@ const TaskListItem = (props) => {
 
               {/* what would be the reason to handle the delete in the onClose prop of the outer dialog component, rather than the onClick of the button? */}
 
-              <Dialog onClose={() => {}} open={dialogIsOpen}>
+              <Dialog
+                onClose={() => {}}
+                open={dialogIsOpen}
+                onKeyUp={handleKeyUp}
+              >
                 <DialogTitle id="delete-confirmation">
                   <Typography align="center">Are you sure?</Typography>
                 </DialogTitle>

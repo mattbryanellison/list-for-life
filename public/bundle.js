@@ -21655,7 +21655,36 @@ const AllLists = props => {
 
   const [title, setTitle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [dialogIsOpen, setDialogIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const [listIdToDelete, setListIdToDelete] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+  const [listIdToDelete, setListIdToDelete] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0); // useEffect(() => {
+  //   console.log("DIALOG IS OPEN IS: ", dialogIsOpen);
+  // }, [dialogIsOpen]);
+
+  const blurActive = () => {
+    setTimeout(() => {
+      document.activeElement.blur();
+    }, 0);
+  };
+
+  const handleConfirmDelete = () => {
+    setDialogIsOpen(false);
+    props.deleteList(listIdToDelete);
+    setListIdToDelete(0);
+  };
+
+  const handleKeyUp = e => {
+    if (e.key === "Enter") {
+      props.deleteList(listIdToDelete);
+      setDialogIsOpen(false);
+      setListIdToDelete(0);
+    }
+
+    if (e.keyCode === 27) {
+      setDialogIsOpen(false);
+      setListIdToDelete(0);
+      blurActive();
+    }
+  };
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     // console.log("USE EFFECT FIRING");
     try {
@@ -21694,8 +21723,14 @@ const AllLists = props => {
         setListIdToDelete(list.id);
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_11__.default, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_12__.default, {
-      onClose: () => {},
-      open: dialogIsOpen
+      open: dialogIsOpen,
+      onKeyUp: e => handleKeyUp(e) // onKeyPress={() => {
+      //   console.log("I HIT ENTER");
+      // }}
+      // onKeyDown={(e) => {
+      //   console.log("I HIT ENTER", e.key);
+      // }}
+
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, {
       id: "delete-confirmation"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
@@ -21704,11 +21739,12 @@ const AllLists = props => {
       variant: "contained",
       fullWidth: false,
       value: list.id,
-      onClick: () => {
-        props.deleteList(listIdToDelete);
-        setDialogIsOpen(false);
-        setListIdToDelete(0);
-      }
+      onClick: handleConfirmDelete // onClick={() => {
+      //   props.deleteList(listIdToDelete);
+      //   setDialogIsOpen(false);
+      //   setListIdToDelete(0);
+      // }}
+
     }, "Confirm"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_15__.default, {
       variant: "contained",
       fullWidth: false,
@@ -22185,10 +22221,14 @@ __webpack_require__.r(__webpack_exports__);
 
 const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_6__.default)(theme => ({
   root: {
-    width: "50%",
-    maxWidth: "50%",
+    display: "flex",
+    justifyContent: "center"
+  },
+  card: {
+    width: "290px",
+    maxWidth: "290px",
     margin: 10,
-    padding: "5px"
+    padding: "20px"
   },
   button: {
     // backgroundColor: "#4d0099",
@@ -22274,8 +22314,10 @@ const Login = props => {
     }
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: classes.root
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    className: classes.card
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
     noValidate: true,
     autoComplete: "off"
@@ -22918,6 +22960,28 @@ const TaskListItem = props => {
     props.setShowAddIcon(true);
   };
 
+  const blurActive = () => {
+    setTimeout(() => {
+      document.activeElement.blur();
+    }, 0);
+  };
+
+  const handleKeyUp = e => {
+    if (e.key === "Enter") {
+      onDeleteHandler(); // setDialogIsOpen(false);
+      // props.deleteTask(listId, task.id);
+      // setEditTitleOpen(false);
+      // props.setShowAddIcon(true);
+    }
+
+    if (e.keyCode === 27) {
+      setDialogIsOpen(false);
+      setEditTitleOpen(false);
+      props.setShowAddIcon(true);
+      blurActive();
+    }
+  };
+
   const handleKeyDown = e => {
     if (e.key === "Enter") {
       if (title === "") {
@@ -23005,7 +23069,8 @@ const TaskListItem = props => {
     fontSize: "small"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_17__.default, {
     onClose: () => {},
-    open: dialogIsOpen
+    open: dialogIsOpen,
+    onKeyUp: handleKeyUp
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_18__.default, {
     id: "delete-confirmation"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, {
@@ -65253,7 +65318,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const darkTheme = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_6__.default)({
+let darkTheme = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_6__.default)({
   palette: {
     type: "dark",
     primary: {

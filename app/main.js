@@ -2,7 +2,11 @@ import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import {
+  createMuiTheme,
+  ThemeProvider,
+  responsiveFontSizes,
+} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import history from "./history";
@@ -10,7 +14,7 @@ import history from "./history";
 import store from "./store";
 import Routes from "./components/Routes";
 
-const darkTheme = createMuiTheme({
+let darkTheme = createMuiTheme({
   palette: {
     type: "dark",
     primary: {
