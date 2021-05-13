@@ -10,6 +10,7 @@ import Home from "./Home";
 import Signup from "./Signup";
 import AllTasks from "./AllTasks";
 import Navbar from "./Navbar";
+import UserAccount from "./UserAccount";
 import { getMeThunk } from "../redux/user";
 
 const useStyles = makeStyles({
@@ -65,6 +66,7 @@ const Routes = (props) => {
           {props.isLoggedIn && (
             <Switch>
               <NavRoute exact path="/home" component={Home} />
+              <NavRoute exact path="/account" component={UserAccount} />
               <NavRoute path="/lists/:listId" component={AllTasks} />
               <NavRoute component={Home} />
             </Switch>

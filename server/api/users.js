@@ -36,8 +36,6 @@ router.post("/logout", (req, res) => {
   req.logout();
   req.session.destroy();
   res.send("Successfully logged out");
-  // TODO: add back later
-  // res.redirect("/");
 });
 
 router.get("/me", (req, res) => {
@@ -45,6 +43,8 @@ router.get("/me", (req, res) => {
 });
 
 router.put("/:id", async (req, res, next) => {
+  //TODO: add authorization
+  //check if req.user.id === req.params.id
   try {
     const user = await User.findByPk(req.params.id);
     await user.update(req.body);

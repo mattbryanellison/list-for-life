@@ -68,6 +68,17 @@ const Navbar = (props) => {
         className={classes.icons}
         onClick={() => {
           handleMenuClose();
+          console.log("ACCOUNT PAGE");
+          //this is where i'd send them to the UserAccount component
+          history.push(`/account`);
+        }}
+      >
+        Account
+      </MenuItem>
+      <MenuItem
+        className={classes.icons}
+        onClick={() => {
+          handleMenuClose();
           props.logout();
         }}
       >

@@ -22494,6 +22494,14 @@ const Navbar = props => {
     className: classes.icons,
     onClick: () => {
       handleMenuClose();
+      console.log("ACCOUNT PAGE"); //this is where i'd send them to the UserAccount component
+
+      _history__WEBPACK_IMPORTED_MODULE_3__.default.push(`/account`);
+    }
+  }, "Account"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core_MenuItem__WEBPACK_IMPORTED_MODULE_6__.default, {
+    className: classes.icons,
+    onClick: () => {
+      handleMenuClose();
       props.logout();
     }
   }, "Logout"));
@@ -22557,16 +22565,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js");
 /* harmony import */ var _Login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Login */ "./app/components/Login.js");
 /* harmony import */ var _Home__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Home */ "./app/components/Home.js");
 /* harmony import */ var _Signup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Signup */ "./app/components/Signup.js");
 /* harmony import */ var _AllTasks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AllTasks */ "./app/components/AllTasks.js");
 /* harmony import */ var _Navbar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Navbar */ "./app/components/Navbar.js");
-/* harmony import */ var _redux_user__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../redux/user */ "./app/redux/user.js");
+/* harmony import */ var _UserAccount__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./UserAccount */ "./app/components/UserAccount.js");
+/* harmony import */ var _redux_user__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../redux/user */ "./app/redux/user.js");
 
 
 
@@ -22577,7 +22586,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default)({
+
+const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default)({
   loading: {
     display: "flex",
     justifyContent: "center",
@@ -22590,7 +22600,7 @@ const NavRoute = ({
   exact,
   path,
   component: Component
-}) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
+}) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
   exact: exact,
   path: path,
   render: props => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Navbar__WEBPACK_IMPORTED_MODULE_6__.default, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props))
@@ -22613,7 +22623,7 @@ const Routes = props => {
   }, [inTimeout, isLoading]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, showLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: classes.loading
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, null)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavRoute, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, null)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavRoute, {
     exact: true,
     path: "/signup",
     component: _Signup__WEBPACK_IMPORTED_MODULE_4__.default
@@ -22621,10 +22631,14 @@ const Routes = props => {
     exact: true,
     path: "/login",
     component: _Login__WEBPACK_IMPORTED_MODULE_2__.default
-  }), props.isLoggedIn && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavRoute, {
+  }), props.isLoggedIn && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavRoute, {
     exact: true,
     path: "/home",
     component: _Home__WEBPACK_IMPORTED_MODULE_3__.default
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavRoute, {
+    exact: true,
+    path: "/account",
+    component: _UserAccount__WEBPACK_IMPORTED_MODULE_7__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavRoute, {
     path: "/lists/:listId",
     component: _AllTasks__WEBPACK_IMPORTED_MODULE_5__.default
@@ -22644,12 +22658,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getMe: async () => {
-      await dispatch((0,_redux_user__WEBPACK_IMPORTED_MODULE_7__.getMeThunk)());
+      await dispatch((0,_redux_user__WEBPACK_IMPORTED_MODULE_8__.getMeThunk)());
     }
   };
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(Routes)));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_router_dom__WEBPACK_IMPORTED_MODULE_10__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(Routes)));
 
 /***/ }),
 
@@ -23116,6 +23130,207 @@ const mapDispatch = dispatch => {
 
 /***/ }),
 
+/***/ "./app/components/UserAccount.js":
+/*!***************************************!*\
+  !*** ./app/components/UserAccount.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Card/Card.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Typography/Typography.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/IconButton/IconButton.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/TextField/TextField.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/Edit.js");
+/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/Done.js");
+/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/Cancel.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _redux_user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../redux/user */ "./app/redux/user.js");
+/* harmony import */ var _Navbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Navbar */ "./app/components/Navbar.js");
+
+
+
+
+
+
+
+const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.default)(() => ({
+  root: {},
+  button: {
+    margin: 5
+  },
+  container: {
+    paddingBottom: 0,
+    paddingTop: 0
+  },
+  typ: {
+    color: "#ffffff"
+  },
+  editIcons: {
+    color: "#ffffff"
+  },
+  greenIcons: {
+    color: "#ffffff",
+    "&:hover": {
+      color: "#66ff33"
+    }
+  },
+  redIcons: {
+    color: "#ffffff",
+    "&:hover": {
+      color: "#ff0000"
+    }
+  },
+  rowBoxItemWide: {
+    display: "flex",
+    width: "100%"
+  },
+  rowBoxItem: {
+    display: "flex",
+    flexDirection: "row"
+  },
+  rowBox: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  rowBoxSpaceBetween: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+    alignItems: "center",
+    paddingLeft: "1.2em"
+  }
+}));
+
+const validateEmail = email => {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+};
+
+const UserAccount = props => {
+  const {
+    user
+  } = props;
+  const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(user.name);
+  const [email, setEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(user.email);
+  const [editNameIsOpen, setEditNameIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [password, setPassword] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(user.password);
+  const [errorTextName, setErrorTextName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [errorTextEmail, setErrorTextEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [errorTextPassword, setErrorTextPassword] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const classes = useStyles();
+  const validEmail = validateEmail(email);
+
+  const handleEditName = e => {
+    e.preventDefault();
+
+    if (name === "") {
+      setErrorTextName("Please update your name or cancel!");
+      return;
+    } // if (!validEmail) {
+    //   setErrorTextEmail("Please update your email address or cancel!");
+    //   return;
+    // }
+    // if (password === "") {
+    //   setErrorTextPassword("Please update your password or cancel!");
+    //   return;
+    // }
+
+
+    props.updateUser(user.id, {
+      name
+    }); // console.log("I would have updated with: ", name);
+  };
+
+  const handleKeyDownName = e => {
+    if (e.key === "Enter") {
+      if (name === "") {
+        setErrorTextName("Please fill in your name!");
+        return;
+      } // if (email === "") {
+      //   setErrorTextEmail("Please fill in your email address!");
+      //   return;
+      // }
+      // if (!validEmail) {
+      //   setErrorTextEmail("Please enter a valid email address!");
+      //   return;
+      // }
+      // if (password === "") {
+      //   setErrorTextPassword("Please fill in your password!");
+      //   return;
+      // }
+
+
+      props.updateUser(user.id, {
+        name
+      });
+      setEditNameIsOpen(false);
+    } else if (e.keyCode === 27) {
+      setName(user.name);
+      setErrorTextName("");
+      setEditNameIsOpen(false); // setErrorTextEmail("");
+      // setErrorTextPassword("");
+
+      return;
+    }
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, null, !editNameIsOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: classes.rowBoxSpaceBetween
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "h4"
+  }, name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    onClick: () => {
+      setEditNameIsOpen(true);
+      setErrorTextName("");
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_8__.default, {
+    fontSize: "small"
+  }))), editNameIsOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, {
+    variant: "outlined",
+    defaultValue: name,
+    autoFocus: true,
+    onKeyDown: handleKeyDownName,
+    error: errorTextName.length ? true : false,
+    helperText: errorTextName,
+    onChange: event => {
+      setErrorTextName("");
+      setName(event.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    onClick: handleEditName,
+    disabled: !name
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_10__.default, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    onClick: () => {
+      setEditNameIsOpen(false);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_11__.default, null)))));
+};
+
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateUser: (id, user) => {
+      dispatch((0,_redux_user__WEBPACK_IMPORTED_MODULE_2__.editUser)(id, user));
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(UserAccount));
+
+/***/ }),
+
 /***/ "./app/history.js":
 /*!************************!*\
   !*** ./app/history.js ***!
@@ -23437,12 +23652,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "signupUser": () => (/* binding */ signupUser),
 /* harmony export */   "loginUser": () => (/* binding */ loginUser),
+/* harmony export */   "updateUser": () => (/* binding */ updateUser),
 /* harmony export */   "logoutUser": () => (/* binding */ logoutUser),
 /* harmony export */   "loginError": () => (/* binding */ loginError),
 /* harmony export */   "clearLoginError": () => (/* binding */ clearLoginError),
 /* harmony export */   "getMe": () => (/* binding */ getMe),
 /* harmony export */   "postUser": () => (/* binding */ postUser),
 /* harmony export */   "fetchUser": () => (/* binding */ fetchUser),
+/* harmony export */   "editUser": () => (/* binding */ editUser),
 /* harmony export */   "endSessionUser": () => (/* binding */ endSessionUser),
 /* harmony export */   "getMeThunk": () => (/* binding */ getMeThunk),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -23454,6 +23671,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const SIGNUP_USER = `SIGNUP_USER`;
 const LOGIN_USER = `LOGIN_USER`;
+const UPDATE_USER = "UPDATE_USER";
 const LOGOUT_USER = `LOGOUT_USER`;
 const LOGIN_ERROR = "LOGIN_ERROR";
 const CLEAR_LOGIN_ERROR = "CLEAR_LOGIN_ERROR";
@@ -23467,6 +23685,12 @@ const signupUser = user => {
 const loginUser = user => {
   return {
     type: LOGIN_USER,
+    user
+  };
+};
+const updateUser = user => {
+  return {
+    type: UPDATE_USER,
     user
   };
 };
@@ -23522,6 +23746,20 @@ const fetchUser = user => {
       }));
     }
   };
+}; //edit user info
+
+const editUser = (id, user) => {
+  return async dispatch => {
+    try {
+      const {
+        data
+      } = await axios__WEBPACK_IMPORTED_MODULE_0___default().put(`/api/users/${id}`, user);
+      dispatch(updateUser(data));
+    } catch (err) {
+      console.log(err);
+      throw new Error("User not found!");
+    }
+  };
 };
 const endSessionUser = () => {
   return async dispatch => {
@@ -23556,6 +23794,9 @@ const initialState = {};
       return action.user;
 
     case LOGIN_USER:
+      return action.user;
+
+    case UPDATE_USER:
       return action.user;
 
     case LOGOUT_USER:
