@@ -23220,6 +23220,7 @@ const UserAccount = props => {
   const [name, setName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(user.name);
   const [email, setEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(user.email);
   const [editNameIsOpen, setEditNameIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [editEmailIsOpen, setEditEmailIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [password, setPassword] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(user.password);
   const [errorTextName, setErrorTextName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [errorTextEmail, setErrorTextEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
@@ -23246,6 +23247,39 @@ const UserAccount = props => {
     props.updateUser(user.id, {
       name
     }); // console.log("I would have updated with: ", name);
+  };
+
+  const handleEditEmail = e => {
+    e.preventDefault();
+
+    if (!validEmail) {
+      setErrorTextEmail("Please update your email address or cancel!");
+      return;
+    }
+
+    props.updateUser(user.id, {
+      email
+    });
+    setEditEmailIsOpen(false);
+  };
+
+  const handleKeyDownEmail = e => {
+    if (e.key === "Enter") {
+      if (!validEmail) {
+        setErrorTextEmail("Please enter a valid email address!");
+        return;
+      }
+
+      props.updateUser(user.id, {
+        email
+      });
+      setEditEmailIsOpen(false);
+    } else if (e.keyCode === 27) {
+      setEmail(user.email);
+      setErrorTextEmail("");
+      setEditEmailIsOpen(false);
+      return;
+    }
   };
 
   const handleKeyDownName = e => {
@@ -23284,6 +23318,8 @@ const UserAccount = props => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, null, !editNameIsOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: classes.rowBoxSpaceBetween
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "subtitle1"
+  }, "Name: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
     variant: "h4"
   }, name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
     onClick: () => {
@@ -23309,6 +23345,37 @@ const UserAccount = props => {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_10__.default, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
     onClick: () => {
       setEditNameIsOpen(false);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_11__.default, null))), !editEmailIsOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: classes.rowBoxSpaceBetween
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "subtitle1"
+  }, "Email: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "h4"
+  }, email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    onClick: () => {
+      setEditEmailIsOpen(true);
+      setErrorTextEmail("");
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_8__.default, {
+    fontSize: "small"
+  }))), editEmailIsOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, {
+    variant: "outlined",
+    defaultValue: email,
+    autoFocus: true,
+    onKeyDown: handleKeyDownEmail,
+    error: errorTextEmail.length ? true : false,
+    helperText: errorTextEmail,
+    onChange: event => {
+      setErrorTextEmail("");
+      setEmail(event.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    onClick: handleEditEmail,
+    disabled: !email
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_10__.default, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    onClick: () => {
+      setEditEmailIsOpen(false);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_11__.default, null)))));
 };

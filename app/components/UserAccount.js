@@ -73,6 +73,7 @@ const UserAccount = (props) => {
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [editNameIsOpen, setEditNameIsOpen] = useState(false);
+  const [editEmailIsOpen, setEditEmailIsOpen] = useState(false);
   const [password, setPassword] = useState(user.password);
   const [errorTextName, setErrorTextName] = useState("");
   const [errorTextEmail, setErrorTextEmail] = useState("");
@@ -100,6 +101,31 @@ const UserAccount = (props) => {
     // }
     props.updateUser(user.id, { name });
     // console.log("I would have updated with: ", name);
+  };
+
+  const handleEditEmail = (e) => {
+    e.preventDefault();
+    if (!validEmail) {
+      setErrorTextEmail("Please update your email address or cancel!");
+      return;
+    }
+    props.updateUser(user.id, { email });
+    setEditEmailIsOpen(false);
+  };
+  const handleKeyDownEmail = (e) => {
+    if (e.key === "Enter") {
+      if (!validEmail) {
+        setErrorTextEmail("Please enter a valid email address!");
+        return;
+      }
+      props.updateUser(user.id, { email });
+      setEditEmailIsOpen(false);
+    } else if (e.keyCode === 27) {
+      setEmail(user.email);
+      setErrorTextEmail("");
+      setEditEmailIsOpen(false);
+      return;
+    }
   };
 
   const handleKeyDownName = (e) => {
@@ -138,8 +164,10 @@ const UserAccount = (props) => {
   return (
     <div>
       <Card>
+        {/* edit name */}
         {!editNameIsOpen && (
           <div className={classes.rowBoxSpaceBetween}>
+            <Typography variant="subtitle1">Name: </Typography>
             <Typography variant="h4">{name}</Typography>
             <IconButton
               onClick={() => {
@@ -172,6 +200,48 @@ const UserAccount = (props) => {
             <IconButton
               onClick={() => {
                 setEditNameIsOpen(false);
+              }}
+            >
+              <Cancel />
+            </IconButton>
+          </div>
+        )}
+        {/* edit email */}
+        {!editEmailIsOpen && (
+          <div className={classes.rowBoxSpaceBetween}>
+            <Typography variant="subtitle1">Email: </Typography>
+            <Typography variant="h4">{email}</Typography>
+            <IconButton
+              onClick={() => {
+                setEditEmailIsOpen(true);
+                setErrorTextEmail("");
+              }}
+            >
+              <Edit fontSize="small" />
+            </IconButton>
+          </div>
+        )}
+        {editEmailIsOpen && (
+          <div>
+            <TextField
+              variant="outlined"
+              defaultValue={email}
+              autoFocus
+              onKeyDown={handleKeyDownEmail}
+              error={errorTextEmail.length ? true : false}
+              helperText={errorTextEmail}
+              onChange={(event) => {
+                setErrorTextEmail("");
+                setEmail(event.target.value);
+              }}
+            />
+
+            <IconButton onClick={handleEditEmail} disabled={!email}>
+              <Done />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                setEditEmailIsOpen(false);
               }}
             >
               <Cancel />
