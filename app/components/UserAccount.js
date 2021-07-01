@@ -74,6 +74,7 @@ const UserAccount = (props) => {
   const [email, setEmail] = useState(user.email);
   const [editNameIsOpen, setEditNameIsOpen] = useState(false);
   const [editEmailIsOpen, setEditEmailIsOpen] = useState(false);
+  const [editPasswordIsOpen, setEditPasswordIsOpen] = useState(false);
   const [password, setPassword] = useState(user.password);
   const [errorTextName, setErrorTextName] = useState("");
   const [errorTextEmail, setErrorTextEmail] = useState("");
@@ -83,26 +84,40 @@ const UserAccount = (props) => {
 
   const validEmail = validateEmail(email);
 
+  //edit name
   const handleEditName = (e) => {
     e.preventDefault();
     if (name === "") {
       setErrorTextName("Please update your name or cancel!");
       return;
     }
-
-    // if (!validEmail) {
-    //   setErrorTextEmail("Please update your email address or cancel!");
-    //   return;
-    // }
-
     // if (password === "") {
     //   setErrorTextPassword("Please update your password or cancel!");
     //   return;
     // }
     props.updateUser(user.id, { name });
-    // console.log("I would have updated with: ", name);
+  };
+  const handleKeyDownName = (e) => {
+    if (e.key === "Enter") {
+      if (name === "") {
+        setErrorTextName("Please fill in your name!");
+        return;
+      }
+      // if (password === "") {
+      //   setErrorTextPassword("Please fill in your password!");
+      //   return;
+      // }
+      props.updateUser(user.id, { name });
+      setEditNameIsOpen(false);
+    } else if (e.keyCode === 27) {
+      setName(user.name);
+      setErrorTextName("");
+      setEditNameIsOpen(false);
+      return;
+    }
   };
 
+  //edit email
   const handleEditEmail = (e) => {
     e.preventDefault();
     if (!validEmail) {
@@ -128,35 +143,28 @@ const UserAccount = (props) => {
     }
   };
 
-  const handleKeyDownName = (e) => {
+  //edit password
+  const handleEditPassword = (e) => {
+    e.preventDefault();
+    if (!password) {
+      setErrorTextPassword("Please update your password or cancel!");
+      return;
+    }
+    props.updateUser(user.id, { password });
+    setEditEmailIsOpen(false);
+  };
+  const handleKeyDownPassword = (e) => {
     if (e.key === "Enter") {
-      if (name === "") {
-        setErrorTextName("Please fill in your name!");
+      if (!password) {
+        setErrorTextPassword("Please enter a valid password!");
         return;
       }
-      // if (email === "") {
-      //   setErrorTextEmail("Please fill in your email address!");
-      //   return;
-      // }
-
-      // if (!validEmail) {
-      //   setErrorTextEmail("Please enter a valid email address!");
-      //   return;
-      // }
-
-      // if (password === "") {
-      //   setErrorTextPassword("Please fill in your password!");
-      //   return;
-      // }
-
-      props.updateUser(user.id, { name });
-      setEditNameIsOpen(false);
+      props.updateUser(user.id, { password });
+      setEditPasswordIsOpen(false);
     } else if (e.keyCode === 27) {
-      setName(user.name);
-      setErrorTextName("");
-      setEditNameIsOpen(false);
-      // setErrorTextEmail("");
-      // setErrorTextPassword("");
+      setPassword(user.password);
+      setErrorTextPassword("");
+      setEditPasswordIsOpen(false);
       return;
     }
   };
@@ -242,6 +250,48 @@ const UserAccount = (props) => {
             <IconButton
               onClick={() => {
                 setEditEmailIsOpen(false);
+              }}
+            >
+              <Cancel />
+            </IconButton>
+          </div>
+        )}
+        {/* edit password */}
+        {!editPasswordIsOpen && (
+          <div className={classes.rowBoxSpaceBetween}>
+            <Typography variant="subtitle1">Password: </Typography>
+            <Typography variant="h4">{password}</Typography>
+            <IconButton
+              onClick={() => {
+                setEditPasswordIsOpen(true);
+                setErrorTextPassword("");
+              }}
+            >
+              <Edit fontSize="small" />
+            </IconButton>
+          </div>
+        )}
+        {editPasswordIsOpen && (
+          <div>
+            <TextField
+              variant="outlined"
+              defaultValue={password}
+              autoFocus
+              onKeyDown={handleKeyDownPassword}
+              error={errorTextPassword.length ? true : false}
+              helperText={errorTextPassword}
+              onChange={(event) => {
+                setErrorTextPassword("");
+                setPassword(event.target.value);
+              }}
+            />
+
+            <IconButton onClick={handleEditPassword} disabled={!password}>
+              <Done />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                setEditPasswordIsOpen(false);
               }}
             >
               <Cancel />

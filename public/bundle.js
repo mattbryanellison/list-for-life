@@ -23221,12 +23221,13 @@ const UserAccount = props => {
   const [email, setEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(user.email);
   const [editNameIsOpen, setEditNameIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [editEmailIsOpen, setEditEmailIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [editPasswordIsOpen, setEditPasswordIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [password, setPassword] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(user.password);
   const [errorTextName, setErrorTextName] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [errorTextEmail, setErrorTextEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [errorTextPassword, setErrorTextPassword] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const classes = useStyles();
-  const validEmail = validateEmail(email);
+  const validEmail = validateEmail(email); //edit name
 
   const handleEditName = e => {
     e.preventDefault();
@@ -23234,11 +23235,7 @@ const UserAccount = props => {
     if (name === "") {
       setErrorTextName("Please update your name or cancel!");
       return;
-    } // if (!validEmail) {
-    //   setErrorTextEmail("Please update your email address or cancel!");
-    //   return;
-    // }
-    // if (password === "") {
+    } // if (password === "") {
     //   setErrorTextPassword("Please update your password or cancel!");
     //   return;
     // }
@@ -23246,8 +23243,32 @@ const UserAccount = props => {
 
     props.updateUser(user.id, {
       name
-    }); // console.log("I would have updated with: ", name);
+    });
   };
+
+  const handleKeyDownName = e => {
+    if (e.key === "Enter") {
+      if (name === "") {
+        setErrorTextName("Please fill in your name!");
+        return;
+      } // if (password === "") {
+      //   setErrorTextPassword("Please fill in your password!");
+      //   return;
+      // }
+
+
+      props.updateUser(user.id, {
+        name
+      });
+      setEditNameIsOpen(false);
+    } else if (e.keyCode === 27) {
+      setName(user.name);
+      setErrorTextName("");
+      setEditNameIsOpen(false);
+      return;
+    }
+  }; //edit email
+
 
   const handleEditEmail = e => {
     e.preventDefault();
@@ -23280,37 +23301,38 @@ const UserAccount = props => {
       setEditEmailIsOpen(false);
       return;
     }
+  }; //edit password
+
+
+  const handleEditPassword = e => {
+    e.preventDefault();
+
+    if (!password) {
+      setErrorTextPassword("Please update your password or cancel!");
+      return;
+    }
+
+    props.updateUser(user.id, {
+      password
+    });
+    setEditEmailIsOpen(false);
   };
 
-  const handleKeyDownName = e => {
+  const handleKeyDownPassword = e => {
     if (e.key === "Enter") {
-      if (name === "") {
-        setErrorTextName("Please fill in your name!");
+      if (!password) {
+        setErrorTextPassword("Please enter a valid password!");
         return;
-      } // if (email === "") {
-      //   setErrorTextEmail("Please fill in your email address!");
-      //   return;
-      // }
-      // if (!validEmail) {
-      //   setErrorTextEmail("Please enter a valid email address!");
-      //   return;
-      // }
-      // if (password === "") {
-      //   setErrorTextPassword("Please fill in your password!");
-      //   return;
-      // }
-
+      }
 
       props.updateUser(user.id, {
-        name
+        password
       });
-      setEditNameIsOpen(false);
+      setEditPasswordIsOpen(false);
     } else if (e.keyCode === 27) {
-      setName(user.name);
-      setErrorTextName("");
-      setEditNameIsOpen(false); // setErrorTextEmail("");
-      // setErrorTextPassword("");
-
+      setPassword(user.password);
+      setErrorTextPassword("");
+      setEditPasswordIsOpen(false);
       return;
     }
   };
@@ -23376,6 +23398,37 @@ const UserAccount = props => {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_10__.default, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
     onClick: () => {
       setEditEmailIsOpen(false);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_11__.default, null))), !editPasswordIsOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: classes.rowBoxSpaceBetween
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "subtitle1"
+  }, "Password: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "h4"
+  }, password), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    onClick: () => {
+      setEditPasswordIsOpen(true);
+      setErrorTextPassword("");
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_8__.default, {
+    fontSize: "small"
+  }))), editPasswordIsOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, {
+    variant: "outlined",
+    defaultValue: password,
+    autoFocus: true,
+    onKeyDown: handleKeyDownPassword,
+    error: errorTextPassword.length ? true : false,
+    helperText: errorTextPassword,
+    onChange: event => {
+      setErrorTextPassword("");
+      setPassword(event.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    onClick: handleEditPassword,
+    disabled: !password
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_10__.default, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    onClick: () => {
+      setEditPasswordIsOpen(false);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_11__.default, null)))));
 };

@@ -22,6 +22,22 @@ const User = db.define("user", {
     type: Sequelize.STRING,
     allowNull: true,
   },
+  // facebookId: {
+  //   type: Sequelize.STRING,
+  //   allowNull: true,
+  // },
+  // appleId: {
+  //   type: Sequelize.STRING,
+  //   allowNull: true,
+  // },
+  // githubId: {
+  //   type: Sequelize.STRING,
+  //   allowNull: true,
+  // },
+  // twitterId: {
+  //   type: Sequelize.STRING,
+  //   allowNull: true,
+  // },
   password: {
     type: Sequelize.STRING,
     // Making `.password` act like a func hides it when serializing to JSON.
